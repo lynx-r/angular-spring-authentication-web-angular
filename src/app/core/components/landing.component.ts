@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
+import {SecuredService} from '../services/secured.service';
+import {PingPayload} from '../models/ping-payload';
+import {PongPayload} from '../models/pong-payload';
 
 @Component({
   selector: 'app-landing',
@@ -10,6 +13,15 @@ import {Store} from '@ngrx/store';
     <div>
       <a routerLink="/auth/SignIn">Войти</a>
     </div>
+    <div>
+      <a (click)="sendPing()">Послать пинг</a>
+    </div>
+    <div>
+      Ответ:
+      <span *ngIf="!!pong">{{pong.pong}}</span>
+      <span *ngIf="!pong">Ошибка!</span>
+      <span *ngIf="!!error">{{error}}</span>
+    </div>
   `,
   styles: [`
 
@@ -17,10 +29,21 @@ import {Store} from '@ngrx/store';
 })
 export class LandingComponent implements OnInit {
 
-  constructor(private store: Store<any>) {
+  pong: PongPayload;
+  error: string;
+
+  constructor(private store: Store<any>,
+              private securedService: SecuredService) {
   }
 
   ngOnInit() {
+  }
+
+  sendPing() {
+    this.securedService.ping(new PingPayload())
+      .subscribe(
+        (pong) => !!pong && (this.pong = pong as PongPayload),
+        (error) => this.error = error.error.message.message);
   }
 
 }

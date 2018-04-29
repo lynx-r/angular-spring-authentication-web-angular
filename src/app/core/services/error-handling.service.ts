@@ -5,6 +5,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Failure} from '../../auth/actions/auth';
 import {UtilsService} from './utils.service';
+import {AnswerMessage} from '../models/answer-message';
 
 @Injectable()
 export class ErrorHandlingService {
@@ -63,8 +64,7 @@ export class ErrorHandlingService {
     }
   };
 
-  handleAuthError(err: HttpErrorResponse) {
-    const message = this.httpErrorMessage(err);
-    return Observable.throw(new Failure(message));
+  handleAuthError(err: AnswerMessage) {
+    return Observable.throw(new Failure(err.message));
   }
 }

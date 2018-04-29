@@ -34,7 +34,7 @@ export class AppConstants {
 
   static ARTICLES_RESOURCE: string = '/articles';
   static REMOVE_ARTICLE_RESOURCE: string = '/article';
-  static ARTICLE_RESOURCE: string = '/article';
+  static PING_RESOURCE: string = '/ping';
   static BOARDS_RESOURCE: string = '/boards';
   static BOARD_RESOURCE: string = '/board';
   static UNDO: string = '/undo';

@@ -1,16 +1,6 @@
 {
   "dev": {
-    "api_article_url": "http://localhost:8080/article/api/v1",
-    "api_board_url": "http://localhost:8080/board/api/v1",
-    "api_security_url": "http://localhost:8080/security/api/v1"
-  },
-  "local": {
-    "api_article_url": "http://localhost:4567/api/v1",
-    "api_board_url": "http://localhost:8002/v1"
-  },
-  "prod": {
-    "api_article_url": "https://api.shashki.online/article/api/v1",
-    "api_board_url": "https://api.shashki.online/board/api/v1",
-    "api_security_url": "https://api.shashki.online/security/api/v1"
+    "api_secured_url": "http://localhost:8080/secured",
+    "api_security_url": "http://localhost:8080/security"
   }
 }

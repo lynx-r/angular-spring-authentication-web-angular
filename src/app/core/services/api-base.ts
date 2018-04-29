@@ -14,36 +14,9 @@ export class ApiBase {
   ) {
   }
 
-  protected httpGet<T>(resource: string, options?: {}) {
-    options = this.commonOptions(options);
-    return this.http.get(resource, options)
-      .map((resp: HttpResponse<Answer>) => {
-        return this.processRequest(resp);
-      })
-      .take(1)
-  }
-
   protected httpPost<T>(resource: string, config: {}, options?: {}) {
     options = this.commonOptions(options);
     return this.http.post(resource, config, options)
-      .map((resp: HttpResponse<Answer>) => {
-        return this.processRequest(resp);
-      })
-      .take(1)
-  }
-
-  protected httpRemove(resource: string, options?: {}) {
-    options = this.commonOptions(options);
-    return this.http.delete(resource, options)
-      .map((resp: HttpResponse<Answer>) => {
-        return this.processRequest(resp);
-      })
-      .take(1)
-  }
-
-  protected httpPut<T>(resource: string, config: {}, options?: {}) {
-    options = this.commonOptions(options);
-    return this.http.put(resource, config, options)
       .map((resp: HttpResponse<Answer>) => {
         return this.processRequest(resp);
       })
@@ -66,16 +39,13 @@ export class ApiBase {
     return this.getConfig().api_security_url;
   }
 
-  protected apiArticleUrl() {
-    return this.getConfig().api_article_url;
-  }
-
-  protected apiBoardUrl() {
-    return this.getConfig().api_board_url;
+  protected apiSecuredUrl() {
+    return this.getConfig().api_secured_url;
   }
 
   protected processRequest(resp: HttpResponse<Answer>) {
     let body = resp.body;
+    console.log('***',body);
     if (!!body) {
       if (body.statusCode == 200 || body.statusCode == 201) {
         let newAuthUser = body.authUser as AuthUser;
@@ -83,7 +53,7 @@ export class ApiBase {
         this.cookieService.replaceAuthUser(oldAuthUser, newAuthUser);
         return body.body;
       } else {
-        return body.message
+        throw body.message
       }
     } else {
       return false;
