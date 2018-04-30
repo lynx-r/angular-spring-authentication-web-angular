@@ -5,7 +5,7 @@ import {SecurityService} from '../../core/services/security.service';
 import {getLoggedInState, getUserState} from '../reducers';
 import {Store} from '@ngrx/store';
 import {RootState} from '../../core/reducers/reducer.reducer';
-import {catchError,  tap} from 'rxjs/operators';
+import {catchError, map, take, tap} from 'rxjs/operators';
 import {ErrorHandlingService} from '../../core/services/error-handling.service';
 import {Authenticated, Failure} from '../actions/auth';
 import {CookiesService} from '../../core/services/cookies.service';
@@ -26,7 +26,7 @@ export class AuthService {
       .pipe(
         tap(authUser => this.setLoginState(authUser)),
         catchError(error =>
-           this.errorHandler.handleAuthError(error)
+          this.errorHandler.handleAuthError(error)
         )
       )
   }
@@ -69,12 +69,15 @@ export class AuthService {
 
   getLoggedUser() {
     return this.store.select(getUserState)
-      .map(authUser => {
-        if (!!authUser) {
-          return authUser;
-        }
-        return this.cookieService.getAuthUser();
-      })
+      .pipe(
+        map(authUser => {
+          if (!!authUser) {
+            return authUser;
+          }
+          return this.cookieService.getAuthUser();
+        }),
+        take(1)
+      )
   }
 
   private setLoginState(authUser: AuthUser) {

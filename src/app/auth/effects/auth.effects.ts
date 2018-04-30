@@ -23,11 +23,11 @@ export class AuthEffects {
       switchMap(credentials =>
         this.authService.register(credentials)
           .pipe(
-            tap(() => this.router.navigate(['/'])),
             mergeMap(user => [
               new RegisterSuccess(user as AuthUser),
               new LoginSuccess(user as AuthUser)
             ]),
+            tap(() => this.router.navigate(['/'])),
             catchError((error) => {
               return Observable.of(error);
             })
@@ -47,13 +47,11 @@ export class AuthEffects {
             tap(() =>
               this.router.navigate(['/'])
             ),
-            take(1),
             catchError((error) => {
               return Observable.of(error);
             })
           )
       ),
-      take(1)
     );
 
   @Effect()

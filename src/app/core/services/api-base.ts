@@ -45,7 +45,6 @@ export class ApiBase {
 
   protected processRequest(resp: HttpResponse<Answer>) {
     let body = resp.body;
-    console.log('***',body);
     if (!!body) {
       if (body.statusCode == 200 || body.statusCode == 201) {
         let newAuthUser = body.authUser as AuthUser;

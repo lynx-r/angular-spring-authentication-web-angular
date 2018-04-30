@@ -76,8 +76,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.navigationAuthSubscription$ = this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
-        switchMap(_ => this.authService.authenticate()),
-        catchError(error => this.errorHandler.handleAuthError(error)),
+        switchMap(_ => this.authService.authenticate()
+          .pipe(
+            catchError(error => {
+              console.log(`ПРОПУСК: Ошибка авторизации: ${error.payload}`);
+              return Observable.of(error);
+            })
+          )
+        ),
         take(1)
       )
       .subscribe();

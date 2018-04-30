@@ -46,7 +46,6 @@ export class LandingComponent implements OnInit {
 
   sendPing() {
     this.securedService.ping(new PingPayload())
-      .do(pong => console.log('pong', pong))
       .subscribe(
         (pong) => {
           if (!!pong) {
