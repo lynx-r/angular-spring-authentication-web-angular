@@ -11,7 +11,7 @@ export class UtilsService {
   }
 
   static isLoggedIn(authUser: AuthUser | null) {
-    return !!authUser && !(authUser.roles
+    return !!authUser && !(authUser.authorities
       .indexOf(AppConstants.ANONYMOUS_ROLE) > -1);
   }
 }

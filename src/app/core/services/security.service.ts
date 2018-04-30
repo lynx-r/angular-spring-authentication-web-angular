@@ -33,7 +33,7 @@ export class SecurityService {
     if (authUser == null) {
       return of(<AuthUser>{
         type: AppConstants.AUTH_USER_PAYLOAD_CLASS,
-        roles: [AppConstants.ANONYMOUS_ROLE]
+        authorities: [AppConstants.ANONYMOUS_ROLE]
       });
     }
     return this.apiSecurityService

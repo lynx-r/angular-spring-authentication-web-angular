@@ -5,5 +5,5 @@ export class AuthUser {
   username: string;
   accessToken: string;
   userSession: string;
-  roles: [string];
+  authorities: [string];
 }
