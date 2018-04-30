@@ -68,7 +68,8 @@ export class AppComponent implements OnInit, OnDestroy {
         switchMap(() => this.authService.authenticate()
           .pipe(
             catchError(error => {
-              console.log(`ПРОПУСК: Ошибка авторизации: ${error.payload}`);
+              // Можно игнорировать для анонимного пользователя
+              console.log(`Ошибка авторизации: ${error.payload}`);
               return Observable.of(error);
             })
           )

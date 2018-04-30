@@ -3,7 +3,6 @@ import {profile} from '../config/profile';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Answer} from '../models/answer';
 import {Injectable} from '@angular/core';
-import {AuthUser} from '../../auth/models/auth-user';
 import {RootState} from '../reducers/reducer.reducer';
 import {Store} from '@ngrx/store';
 import {Authenticated} from '../../auth/actions/auth';

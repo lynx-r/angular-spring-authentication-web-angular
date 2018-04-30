@@ -76,7 +76,6 @@ export class AuthService {
           if (!!authUser) {
             return authUser;
           }
-          console.log('get AU from cookie', this.cookieService.getAuthUser());
           return this.cookieService.getAuthUser();
         }),
         take(1)

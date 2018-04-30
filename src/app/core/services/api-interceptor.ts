@@ -36,7 +36,6 @@ export class ApiInterceptor implements HttpInterceptor {
               }
             );
           }
-          console.log('intercept', authUser);
           return next.handle(clonedRequest);
         }),
         switchMap(value => {
