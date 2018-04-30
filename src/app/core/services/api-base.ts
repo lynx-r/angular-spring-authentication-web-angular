@@ -15,7 +15,7 @@ export class ApiBase {
   }
 
   protected httpPost<T>(resource: string, config: {}, options?: {}) {
-    options = this.commonOptions(options);
+    options = ApiBase.commonOptions(options);
     return this.http.post(resource, config, options)
       .map((resp: HttpResponse<Answer>) => {
         return this.processRequest(resp);
@@ -23,7 +23,7 @@ export class ApiBase {
       .take(1)
   }
 
-  private commonOptions(options?: {}) {
+  private static commonOptions(options?: {}) {
     if (options == null) {
       options = {};
     }
@@ -35,12 +35,12 @@ export class ApiBase {
     return options;
   }
 
-  protected apiSecurityUrl() {
-    return this.getConfig().api_security_url;
+  protected static apiSecurityUrl() {
+    return ApiBase.getConfig().api_security_url;
   }
 
-  protected apiSecuredUrl() {
-    return this.getConfig().api_secured_url;
+  protected static apiSecuredUrl() {
+    return ApiBase.getConfig().api_secured_url;
   }
 
   protected processRequest(resp: HttpResponse<Answer>) {
@@ -58,7 +58,7 @@ export class ApiBase {
     }
   }
 
-  private getConfig() {
+  private static getConfig() {
     return (<any>config)[profile];
   }
 }

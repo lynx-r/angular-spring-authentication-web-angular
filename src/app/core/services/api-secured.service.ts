@@ -10,7 +10,7 @@ export class ApiSecuredService extends ApiBase {
 
   post<T>(resource: string, config: any): Observable<T | AnswerMessage | boolean> {
     return super
-      .httpPost<T>(this.apiSecuredUrl() + resource, config)
+      .httpPost<T>(ApiBase.apiSecuredUrl() + resource, config)
       .pipe(
         retry(AppConstants.HTTP_RETRY)
       )
