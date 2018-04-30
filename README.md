@@ -102,7 +102,7 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
     
     15 directories, 41 files
   
-## REST клиент для сервис аутентификации/авторизации/регистрации и иже с ними
+## REST клиент для сервис аутентификации/авторизации/регистрации
 
 Для коммуникации с сервером будем использовать обретку для `@angular/common/http/HttpClient` со следующей иерархией:
 
