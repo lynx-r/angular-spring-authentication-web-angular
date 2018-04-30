@@ -1,3 +1,11 @@
+## Команды из package.json
+
+```
+# yarn start // запускает ng serve
+# yarn prod // делает сборку проекта в production с base-ref /app
+# yarn deploy // деплоит проект в локальную папку ~/Sites/app
+```
+
 ## Angular-ngrx-starter
 
 Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
