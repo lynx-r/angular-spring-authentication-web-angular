@@ -6,7 +6,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {environment} from '../../environments/environment';
 import {StoreModule} from '@ngrx/store';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {metaReducers, reducers} from './reducers/reducer.reducer';
+import {metaReducers} from './reducers/reducer.reducer';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {CommonModule} from '@angular/common';
@@ -16,6 +16,7 @@ import {ApiInterceptor} from './services/api-interceptor';
 import {AuthModule} from '../auth/auth.module';
 import {ServicesModule} from './services/services.module';
 import {CookieModule} from 'ngx-cookie';
+import {reducers} from '../auth/reducers';
 
 @NgModule({
   imports: [

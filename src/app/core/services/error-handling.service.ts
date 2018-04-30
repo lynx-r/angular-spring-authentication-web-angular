@@ -64,7 +64,13 @@ export class ErrorHandlingService {
     }
   };
 
-  handleAuthError(err: AnswerMessage) {
-    return Observable.throw(new Failure(err.message));
+  handleAuthError(err: any) {
+    let message;
+    if (err instanceof AnswerMessage) {
+      message = err.message;
+    } else {
+      message = this.httpErrorMessage(err);
+    }
+    return Observable.throw(new Failure(message));
   }
 }

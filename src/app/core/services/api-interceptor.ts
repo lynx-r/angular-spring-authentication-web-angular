@@ -24,9 +24,6 @@ export class ApiInterceptor implements HttpInterceptor {
                   clonedRequest.headers
                     .append(AppConstants.ACCESS_TOKEN_HEADER, authUser.accessToken)
                     .append(AppConstants.USER_SESSION_HEADER, authUser.userSession)
-                    .append(AppConstants.AUTH_COUNTER_SESSION_HEADER, authUser.counter.toString())
-                    .append(AppConstants.FILTER_EXPRESSION_HEADER, authUser.filterExpression)
-                    .append(AppConstants.FILTER_VALUES_HEADER, JSON.stringify(authUser.filterValues))
                     .append(AppConstants.USER_ROLES_HEADER, authUser.roles.join(','))
               }
             );

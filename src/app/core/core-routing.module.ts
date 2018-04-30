@@ -11,9 +11,9 @@ const routes: Routes = [
     component: LandingComponent,
   },
   {
-    path: 'auth/SignIn',
-    component: SigninPageComponent
-    // loadChildren: '../auth/auth.module#AuthModule',
+    path: 'auth',
+    // component: SigninPageComponent
+    loadChildren: 'app/auth/auth.module#AuthModule',
   },
   {path: '**', component: NotFoundPageComponent},
 ];
@@ -21,7 +21,6 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
-    AuthModule
   ],
   exports: [RouterModule],
 })

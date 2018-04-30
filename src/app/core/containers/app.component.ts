@@ -17,14 +17,15 @@ import {
 import {Subscription} from 'rxjs/Subscription';
 import {RootState} from '../reducers/reducer.reducer';
 import {Location} from '@angular/common';
-import {OpenSidenav} from '../actions/layout';
 import {Logout} from '../../auth/actions/auth';
 import {AuthService} from '../../auth/services/auth.service';
-import {filter, map, switchMap, take, takeUntil} from 'rxjs/operators';
+import {catchError, filter, map, switchMap, take, takeUntil} from 'rxjs/operators';
+import {ErrorHandlingService} from '../services/error-handling.service';
 
 @Component({
   selector: 'app-root',
   template: `
+    <a (click)="handleBack()">Назад</a>
     <router-outlet></router-outlet>
   `,
   styles: [`
@@ -52,7 +53,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private store: Store<RootState>,
               private router: Router,
               private location: Location,
-              private authService: AuthService
+              private authService: AuthService,
+              private errorHandler: ErrorHandlingService
   ) {
   }
 
@@ -75,15 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(
         filter(event => event instanceof NavigationEnd),
         switchMap(_ => this.authService.authenticate()),
-        take(1)
-      )
-      .subscribe();
-
-    this.navigationEndSubscription$ = this.navigationEnd$
-      .pipe(
-        map(() => {
-          this.store.dispatch(new OpenSidenav(''));
-        }),
+        catchError(error => this.errorHandler.handleAuthError(error)),
         take(1)
       )
       .subscribe();
@@ -95,7 +89,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.navigationEndSubscription$.unsubscribe();
   }
 
-  logout() {
-    this.store.dispatch(new Logout());
+  handleBack() {
+    this.location.back();
   }
 }
