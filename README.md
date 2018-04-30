@@ -6,6 +6,8 @@
 # yarn deploy // деплоит проект в локальную папку ~/Sites/app
 ```
 
+[Сервер на Spring](https://github.com/lynx-r/angular-spring-authentication-server-spring)
+
 ## Angular-ngrx-starter
 
 Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
