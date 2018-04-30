@@ -1,5 +1,6 @@
 import {Action} from '@ngrx/store';
-import {RegisterUser, AuthUser} from '../models/registerUser';
+import {RegisterUser} from '../models/register-user';
+import {AuthUser} from '../models/auth-user';
 
 export enum AuthActionTypes {
   REGISTER = '[Auth] Register',

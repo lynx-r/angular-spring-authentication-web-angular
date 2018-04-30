@@ -4,7 +4,7 @@ import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Answer} from '../models/answer';
 import {Injectable} from '@angular/core';
 import {CookiesService} from './cookies.service';
-import {AuthUser} from '../../auth/models/registerUser';
+import {AuthUser} from '../../auth/models/auth-user';
 
 @Injectable()
 export class ApiBase {
@@ -48,8 +48,7 @@ export class ApiBase {
     if (!!body) {
       if (body.statusCode == 200 || body.statusCode == 201) {
         let newAuthUser = body.authUser as AuthUser;
-        let oldAuthUser = this.cookieService.getAuthUser();
-        this.cookieService.replaceAuthUser(oldAuthUser, newAuthUser);
+        this.cookieService.replaceAuthUser(newAuthUser);
         return body.body;
       } else {
         throw body.message
@@ -62,12 +61,4 @@ export class ApiBase {
   private getConfig() {
     return (<any>config)[profile];
   }
-
-  private processAnswer<T>(answer: Answer) {
-    if ((answer.statusCode == 200) || (answer.statusCode == 201)) {
-      return answer.body as T;
-    }
-    return answer.message;
-  }
-
 }

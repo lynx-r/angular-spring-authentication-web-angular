@@ -4,7 +4,7 @@ import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest} from '@angular/com
 import {AppConstants} from '../config/app-constants';
 import {UtilsService} from './utils.service';
 import {AuthService} from '../../auth/services/auth.service';
-import {map, switchMap, take, tap} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {

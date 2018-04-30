@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AuthUser, RegisterUser} from '../models/registerUser';
+import {RegisterUser} from '../models/register-user';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AppConstants} from '../../core/config/app-constants';
 

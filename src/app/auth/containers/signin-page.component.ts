@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {AuthUser, RegisterUser} from '../models/registerUser';
+import {RegisterUser} from '../models/register-user';
 import {AuthRootState, getLoginPageError, getLoginPagePending} from '../reducers';
 import {Login} from '../actions/auth';
 
@@ -19,9 +19,11 @@ export class SigninPageComponent implements OnInit {
   pending$ = this.store.pipe(select(getLoginPagePending));
   error$ = this.store.pipe(select(getLoginPageError));
 
-  constructor(private store: Store<AuthRootState>) {}
+  constructor(private store: Store<AuthRootState>) {
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   onSubmit($event: RegisterUser) {
     this.store.dispatch(new Login($event));

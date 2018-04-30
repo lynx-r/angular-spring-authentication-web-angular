@@ -15,15 +15,13 @@ import {AuthService} from './services/auth.service';
 import {ErrorHandlingService} from '../core/services/error-handling.service';
 import {SecurityService} from '../core/services/security.service';
 import {ApiSecurityService} from '../core/services/api-security.service';
+import {AuthRoutingModule} from './auth-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule.forChild([
-      {path: 'SignIn', component: SigninPageComponent},
-      {path: 'SignUp', component: SignupPageComponent},
-    ]),
+    AuthRoutingModule,
     StoreModule.forFeature('auth', reducers),
     EffectsModule.forFeature([AuthEffects]),
   ],

@@ -1,6 +1,6 @@
-import {AuthUser, RegisterUser} from '../models/registerUser';
 import {AuthActions, AuthActionTypes} from '../actions/auth';
 import {UtilsService} from '../../core/services/utils.service';
+import {AuthUser} from '../models/auth-user';
 
 export interface AuthState {
   loggedIn: boolean;

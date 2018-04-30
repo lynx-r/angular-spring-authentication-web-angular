@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AppConstants} from '../config/app-constants';
-import {AuthUser, RegisterUser} from '../../auth/models/registerUser';
+import {RegisterUser} from '../../auth/models/register-user';
 import {ApiSecurityService} from './api-security.service';
 import {of} from 'rxjs/observable/of';
+import {AuthUser} from '../../auth/models/auth-user';
 
 @Injectable()
 export class SecurityService {

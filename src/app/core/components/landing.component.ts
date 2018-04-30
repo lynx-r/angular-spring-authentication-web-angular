@@ -45,7 +45,7 @@ export class LandingComponent implements OnInit {
   }
 
   sendPing() {
-    this.securedService.ping(new PingPayload())
+    this.securedService.ping(new PingPayload('PING'))
       .subscribe(
         (pong) => {
           if (!!pong) {

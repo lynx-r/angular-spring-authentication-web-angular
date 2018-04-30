@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {RegisterUser, AuthUser} from '../models/registerUser';
+import {RegisterUser} from '../models/register-user';
 import {Observable} from 'rxjs/Observable';
 import {SecurityService} from '../../core/services/security.service';
 import {getLoggedInState, getUserState} from '../reducers';
@@ -9,6 +9,7 @@ import {catchError, map, take, tap} from 'rxjs/operators';
 import {ErrorHandlingService} from '../../core/services/error-handling.service';
 import {Authenticated, Failure} from '../actions/auth';
 import {CookiesService} from '../../core/services/cookies.service';
+import {AuthUser} from '../models/auth-user';
 
 @Injectable()
 export class AuthService {

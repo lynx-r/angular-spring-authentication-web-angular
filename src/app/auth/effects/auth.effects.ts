@@ -8,13 +8,14 @@ import {Router} from '@angular/router';
 import {Effect, Actions, ofType} from '@ngrx/effects';
 
 import {AuthService} from '../services/auth.service';
-import {catchError, map, mergeMap, switchMap, take, tap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {AuthActionTypes, Login, LoginSuccess, Register, RegisterSuccess} from '../actions/auth';
-import {AuthUser} from '../models/registerUser';
 import {Observable} from 'rxjs/Observable';
+import {AuthUser} from '../models/auth-user';
 
 @Injectable()
 export class AuthEffects {
+
   @Effect()
   register$ = this.actions$
     .pipe(

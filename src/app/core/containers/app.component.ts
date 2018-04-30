@@ -17,10 +17,8 @@ import {
 import {Subscription} from 'rxjs/Subscription';
 import {RootState} from '../reducers/reducer.reducer';
 import {Location} from '@angular/common';
-import {Logout} from '../../auth/actions/auth';
 import {AuthService} from '../../auth/services/auth.service';
-import {catchError, filter, map, switchMap, take, takeUntil} from 'rxjs/operators';
-import {ErrorHandlingService} from '../services/error-handling.service';
+import {catchError, filter, switchMap, take, takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -32,14 +30,6 @@ import {ErrorHandlingService} from '../services/error-handling.service';
     *, /deep/ * {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-    }
-
-    .sidenav {
-      width: 300px;
-    }
-
-    .sidenav-right {
-      width: 400px;
     }
   `]
 })
@@ -53,8 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private store: Store<RootState>,
               private router: Router,
               private location: Location,
-              private authService: AuthService,
-              private errorHandler: ErrorHandlingService
+              private authService: AuthService
   ) {
   }
 
@@ -76,7 +65,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.navigationAuthSubscription$ = this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
-        switchMap(_ => this.authService.authenticate()
+        switchMap(() => this.authService.authenticate()
           .pipe(
             catchError(error => {
               console.log(`ПРОПУСК: Ошибка авторизации: ${error.payload}`);
