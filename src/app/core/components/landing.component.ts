@@ -8,6 +8,7 @@ import {Logout} from '../../auth/actions/auth';
 import {getLoggedInState, getUserState} from '../../auth/reducers/index';
 import {Observable} from 'rxjs/Observable';
 import {AuthUser} from '../../auth/models/auth-user';
+import {AuthService} from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -46,9 +47,10 @@ export class LandingComponent implements OnInit {
   loggedIn$: Observable<boolean>;
 
   constructor(private store: Store<any>,
+              private authService: AuthService,
               private securedService: SecuredService) {
-    this.authUser$ = this.store.select(getUserState);
-    this.loggedIn$ = this.store.select(getLoggedInState);
+    this.authUser$ = this.authService.getLoggedUser();
+    this.loggedIn$ = this.authService.isLoggedIn();
   }
 
   ngOnInit() {

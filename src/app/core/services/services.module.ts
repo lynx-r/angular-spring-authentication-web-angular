@@ -20,7 +20,7 @@ import {ApiSecuredService} from './api-secured.service';
     ErrorHandlingService,
     CookieService,
     CookiesService,
-    UtilsService
+    UtilsService,
   ]
 })
 export class ServicesModule { }

@@ -25,7 +25,7 @@ export class AuthService {
   register(credentials: RegisterUser): Observable<AuthUser | Failure> {
     return this.securityService.register(credentials)
       .pipe(
-        tap(authUser => this.setLoginState(authUser)),
+        tap(authUser => this.setAuthUserState(authUser)),
         catchError(error =>
           this.errorHandler.handleAuthError(error)
         )
@@ -35,7 +35,7 @@ export class AuthService {
   authorize(credentials: RegisterUser): Observable<AuthUser | Failure> {
     return this.securityService.authorize(credentials)
       .pipe(
-        tap(authUser => this.setLoginState(authUser)),
+        tap(authUser => this.setAuthUserState(authUser)),
         catchError(error => {
           return this.errorHandler.handleAuthError(error);
         })
@@ -46,7 +46,7 @@ export class AuthService {
     let authUser = this.cookieService.getAuthUser();
     return this.securityService.authenticate(authUser)
       .pipe(
-        tap(authedUser => this.setLoginState(authedUser)),
+        tap(authedUser => this.setAuthUserState(authedUser)),
         catchError(error => {
           return this.errorHandler.handleAuthError(error);
         })
@@ -55,13 +55,14 @@ export class AuthService {
 
   logout() {
     let authUser = this.cookieService.getAuthUser();
-    this.cookieService.removeAuthUser();
     return this.securityService.logout(authUser)
       .pipe(
+        tap(() => this.cookieService.removeAuthUser()),
         catchError(error => {
           return this.errorHandler.handleAuthError(error);
         })
-      );
+      )
+      ;
   }
 
   isLoggedIn() {
@@ -75,13 +76,14 @@ export class AuthService {
           if (!!authUser) {
             return authUser;
           }
+          console.log('get AU from cookie', this.cookieService.getAuthUser());
           return this.cookieService.getAuthUser();
         }),
         take(1)
       )
   }
 
-  private setLoginState(authUser: AuthUser) {
+  setAuthUserState(authUser: AuthUser) {
     this.cookieService.putAuthUser(authUser);
     this.store.dispatch(new Authenticated(authUser));
   }

@@ -3,14 +3,16 @@ import {profile} from '../config/profile';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Answer} from '../models/answer';
 import {Injectable} from '@angular/core';
-import {CookiesService} from './cookies.service';
 import {AuthUser} from '../../auth/models/auth-user';
+import {RootState} from '../reducers/reducer.reducer';
+import {Store} from '@ngrx/store';
+import {Authenticated} from '../../auth/actions/auth';
 
 @Injectable()
 export class ApiBase {
 
   constructor(private http: HttpClient,
-              private cookieService: CookiesService,
+              private store: Store<RootState>,
   ) {
   }
 
@@ -47,8 +49,7 @@ export class ApiBase {
     let body = resp.body;
     if (!!body) {
       if (body.statusCode == 200 || body.statusCode == 201) {
-        let newAuthUser = body.authUser as AuthUser;
-        this.cookieService.replaceAuthUser(newAuthUser);
+        this.store.dispatch(new Authenticated(body.authUser));
         return body.body;
       } else {
         throw body.message
