@@ -4,23 +4,36 @@ import {ErrorHandlingService} from './error-handling.service';
 import {CookiesService} from './cookies.service';
 import {CookieService} from 'ngx-cookie';
 import {UtilsService} from './utils.service';
-import {AuthService} from '../../auth/services/auth.service';
+import {AuthService} from './auth.service';
 import {DefendedService} from './defended.service';
 import {ApiDefendedService} from './api-defended.service';
+import {ApiBase} from './api-base';
+import {ApiSecurityService} from './api-security.service';
+import {SecurityService} from './security.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    HttpClientModule
   ],
   declarations: [],
   providers: [
     AuthService,
+
+    ApiBase,
+
+    ApiSecurityService,
+    SecurityService,
+
     ApiDefendedService,
     DefendedService,
-    ErrorHandlingService,
+
     CookieService,
     CookiesService,
+
     UtilsService,
+    ErrorHandlingService,
   ]
 })
 export class ServicesModule { }

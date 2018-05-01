@@ -12,6 +12,6 @@ export class AppConstants {
   static ANONYMOUS_ROLE: string = 'ANONYMOUS';
   static ACCESS_TOKEN_HEADER: string = 'access-token';
   static AUTH_USER_PAYLOAD_CLASS: string = 'AuthUser';
-  static REGISTER_USER_PAYLOAD_CLASS: string = 'RegisterUser';
+  static REGISTER_USER_PAYLOAD_CLASS: string = 'UserCredentials';
   static AUTH_USER_COOKIE: string = 'auth-user';
 }

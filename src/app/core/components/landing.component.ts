@@ -8,7 +8,7 @@ import {Logout} from '../../auth/actions/auth';
 import {getLoggedInState, getUserState} from '../../auth/reducers/index';
 import {Observable} from 'rxjs/Observable';
 import {AuthUser} from '../../auth/models/auth-user';
-import {AuthService} from '../../auth/services/auth.service';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-landing',

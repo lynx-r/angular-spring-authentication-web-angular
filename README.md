@@ -61,7 +61,7 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
     │   │   └── auth.effects.ts
     │   ├── models
     │   │   ├── auth-user.ts
-    │   │   └── register-user.ts
+    │   │   └── user-credentials.ts
     │   ├── reducers
     │   │   ├── auth.ts
     │   │   ├── index.ts
@@ -117,7 +117,7 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
 Приведу пример метода аутентификации:
 
 ```
-authorize(credentials: RegisterUser): Observable<AuthUser | Failure> {
+authorize(credentials: UserCredentials): Observable<AuthUser | Failure> {
   return this.securityService.authorize(credentials) // Делаем HTTP запрос на сервер
     .pipe(
       tap(authUser => this.setAuthUserState(authUser)), // Сохраняем состояние пользователя

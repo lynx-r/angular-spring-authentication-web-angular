@@ -11,11 +11,12 @@ import {SigninComponent} from './components/signin.component';
 import {SignupComponent} from './components/signup.component';
 import {SignupPageComponent} from './containers/signup-page.component';
 import {reducers} from './reducers';
-import {AuthService} from './services/auth.service';
+import {AuthService} from '../core/services/auth.service';
 import {ErrorHandlingService} from '../core/services/error-handling.service';
 import {SecurityService} from '../core/services/security.service';
 import {ApiSecurityService} from '../core/services/api-security.service';
 import {AuthRoutingModule} from './auth-routing.module';
+import {ServicesModule} from '../core/services/services.module';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import {AuthRoutingModule} from './auth-routing.module';
     AuthRoutingModule,
     StoreModule.forFeature('auth', reducers),
     EffectsModule.forFeature([AuthEffects]),
+    ServicesModule
   ],
   declarations: [
     SigninComponent,
@@ -36,9 +38,6 @@ import {AuthRoutingModule} from './auth-routing.module';
     SignupPageComponent
   ],
   providers: [
-    AuthService,
-    SecurityService,
-    ApiSecurityService,
     ErrorHandlingService
   ]
 })

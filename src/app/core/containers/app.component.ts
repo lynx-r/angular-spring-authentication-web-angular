@@ -17,7 +17,7 @@ import {
 import {Subscription} from 'rxjs/Subscription';
 import {RootState} from '../reducers/reducer.reducer';
 import {Location} from '@angular/common';
-import {AuthService} from '../../auth/services/auth.service';
+import {AuthService} from '../services/auth.service';
 import {catchError, filter, switchMap, take, takeUntil} from 'rxjs/operators';
 
 @Component({

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {RegisterUser} from '../models/register-user';
+import {UserCredentials} from '../models/user-credentials';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AppConstants} from '../../core/config/app-constants';
 
@@ -56,7 +56,7 @@ export class SignupComponent implements OnInit {
 
   @Input() errorMessage: string | null;
 
-  @Output() submitted = new EventEmitter<RegisterUser>();
+  @Output() submitted = new EventEmitter<UserCredentials>();
 
   form: FormGroup = new FormGroup({
     username: new FormControl(''),
@@ -72,7 +72,7 @@ export class SignupComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      let credentials = <RegisterUser>{...this.form.value, type: AppConstants.REGISTER_USER_PAYLOAD_CLASS};
+      let credentials = <UserCredentials>{...this.form.value, type: AppConstants.REGISTER_USER_PAYLOAD_CLASS};
       this.submitted.emit(credentials);
     }
   }

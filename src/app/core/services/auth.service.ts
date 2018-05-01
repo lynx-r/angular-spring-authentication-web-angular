@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
-import {RegisterUser} from '../models/register-user';
+import {UserCredentials} from '../../auth/models/user-credentials';
 import {Observable} from 'rxjs/Observable';
-import {SecurityService} from '../../core/services/security.service';
-import {getLoggedInState, getUserState} from '../reducers';
+import {SecurityService} from './security.service';
 import {Store} from '@ngrx/store';
-import {RootState} from '../../core/reducers/reducer.reducer';
+import {RootState} from '../reducers/reducer.reducer';
 import {catchError, map, take, tap} from 'rxjs/operators';
-import {ErrorHandlingService} from '../../core/services/error-handling.service';
-import {Authenticated, Failure} from '../actions/auth';
-import {CookiesService} from '../../core/services/cookies.service';
-import {AuthUser} from '../models/auth-user';
+import {ErrorHandlingService} from './error-handling.service';
+import {Authenticated, Failure} from '../../auth/actions/auth';
+import {CookiesService} from './cookies.service';
+import {AuthUser} from '../../auth/models/auth-user';
+import {getLoggedInState, getUserState} from '../../auth/reducers';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +22,7 @@ export class AuthService {
   ) {
   }
 
-  register(credentials: RegisterUser): Observable<AuthUser | Failure> {
+  register(credentials: UserCredentials): Observable<AuthUser | Failure> {
     return this.securityService.register(credentials)
       .pipe(
         tap(authUser => this.setAuthUserState(authUser)),
@@ -32,7 +32,7 @@ export class AuthService {
       )
   }
 
-  authorize(credentials: RegisterUser): Observable<AuthUser | Failure> {
+  authorize(credentials: UserCredentials): Observable<AuthUser | Failure> {
     return this.securityService.authorize(credentials)
       .pipe(
         tap(authUser => this.setAuthUserState(authUser)),

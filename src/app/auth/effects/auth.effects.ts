@@ -7,7 +7,7 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Effect, Actions, ofType} from '@ngrx/effects';
 
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../../core/services/auth.service';
 import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {AuthActionTypes, Login, LoginSuccess, Register, RegisterSuccess} from '../actions/auth';
 import {Observable} from 'rxjs/Observable';

@@ -6,6 +6,7 @@ import {Injectable} from '@angular/core';
 import {RootState} from '../reducers/reducer.reducer';
 import {Store} from '@ngrx/store';
 import {Authenticated} from '../../auth/actions/auth';
+import {map, take} from 'rxjs/operators';
 
 @Injectable()
 export class ApiBase {
@@ -18,19 +19,23 @@ export class ApiBase {
   protected httpPost<T>(resource: string, config: {}, options?: {}) {
     options = ApiBase.commonOptions(options);
     return this.http.post(resource, config, options)
-      .map((resp: HttpResponse<Answer>) => {
-        return this.processRequest(resp);
-      })
-      .take(1)
+      .pipe(
+        map((resp: HttpResponse<Answer>) => {
+          return this.processRequest(resp);
+        }),
+        take(1)
+      )
   }
 
   protected httpGet<T>(resource: string, options?: {}) {
     options = ApiBase.commonOptions(options);
     return this.http.get(resource, options)
-      .map((resp: HttpResponse<Answer>) => {
-        return this.processRequest(resp);
-      })
-      .take(1)
+      .pipe(
+        map((resp: HttpResponse<Answer>) => {
+          return this.processRequest(resp);
+        }),
+        take(1)
+      )
   }
 
   private static commonOptions(options?: {}) {

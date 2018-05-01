@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest} from '@angular/common/http';
 import {AppConstants} from '../config/app-constants';
 import {UtilsService} from './utils.service';
-import {AuthService} from '../../auth/services/auth.service';
+import {AuthService} from './auth.service';
 import {map, switchMap} from 'rxjs/operators';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {RegisterUser} from '../models/register-user';
+import {UserCredentials} from '../models/user-credentials';
 import {AuthUser} from '../models/auth-user';
 
 export enum AuthActionTypes {
@@ -18,7 +18,7 @@ export enum AuthActionTypes {
 export class Register implements Action {
   readonly type = AuthActionTypes.REGISTER;
 
-  constructor(public payload: RegisterUser) {
+  constructor(public payload: UserCredentials) {
   }
 }
 
@@ -32,7 +32,7 @@ export class RegisterSuccess implements Action {
 export class Login implements Action {
   readonly type = AuthActionTypes.LOGIN;
 
-  constructor(public payload: RegisterUser) {
+  constructor(public payload: UserCredentials) {
   }
 }
 

@@ -23,7 +23,6 @@ import {reducers} from '../auth/reducers';
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     CoreRoutingModule,
     ServicesModule,
 

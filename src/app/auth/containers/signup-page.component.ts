@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {RegisterUser} from '../models/register-user';
+import {UserCredentials} from '../models/user-credentials';
 import {AuthRootState, getLoginPageError, getLoginPagePending} from '../reducers';
 import {Register} from '../actions/auth';
 
@@ -25,7 +25,7 @@ export class SignupPageComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit($event: RegisterUser) {
+  onSubmit($event: UserCredentials) {
     this.store.dispatch(new Register($event));
   }
 
