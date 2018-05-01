@@ -40,8 +40,8 @@ export class SecurityService {
       .post(AppConstants.AUTHENTICATE_RESOURCE, authUser)
   }
 
-  logout(authUser: AuthUser) {
+  logout() {
     return this.apiSecurityService
-      .post(AppConstants.LOGOUT_RESOURCE, authUser)
+      .get(AppConstants.LOGOUT_RESOURCE)
   }
 }

@@ -5,8 +5,8 @@ import {CookiesService} from './cookies.service';
 import {CookieService} from 'ngx-cookie';
 import {UtilsService} from './utils.service';
 import {AuthService} from '../../auth/services/auth.service';
-import {SecuredService} from './secured.service';
-import {ApiSecuredService} from './api-secured.service';
+import {DefendedService} from './defended.service';
+import {ApiDefendedService} from './api-defended.service';
 
 @NgModule({
   imports: [
@@ -15,8 +15,8 @@ import {ApiSecuredService} from './api-secured.service';
   declarations: [],
   providers: [
     AuthService,
-    ApiSecuredService,
-    SecuredService,
+    ApiDefendedService,
+    DefendedService,
     ErrorHandlingService,
     CookieService,
     CookiesService,

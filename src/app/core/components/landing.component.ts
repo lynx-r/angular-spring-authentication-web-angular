@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {SecuredService} from '../services/secured.service';
+import {DefendedService} from '../services/defended.service';
 import {PingPayload} from '../models/ping-payload';
 import {PongPayload} from '../models/pong-payload';
 import {AnswerMessage} from '../models/answer-message';
@@ -48,7 +48,7 @@ export class LandingComponent implements OnInit {
 
   constructor(private store: Store<any>,
               private authService: AuthService,
-              private securedService: SecuredService) {
+              private defendedService: DefendedService) {
     this.authUser$ = this.authService.getLoggedUser();
     this.loggedIn$ = this.authService.isLoggedIn();
   }
@@ -57,7 +57,7 @@ export class LandingComponent implements OnInit {
   }
 
   sendPing() {
-    this.securedService.ping(new PingPayload('PING'))
+    this.defendedService.ping(new PingPayload('PING'))
       .subscribe(
         (pong) => {
           if (!!pong) {

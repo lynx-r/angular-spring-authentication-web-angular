@@ -6,11 +6,11 @@ import {AppConstants} from '../config/app-constants';
 import {AnswerMessage} from '../models/answer-message';
 
 @Injectable()
-export class ApiSecuredService extends ApiBase {
+export class ApiDefendedService extends ApiBase {
 
   post<T>(resource: string, config: any): Observable<T | AnswerMessage | boolean> {
     return super
-      .httpPost<T>(ApiBase.apiSecuredUrl() + resource, config)
+      .httpPost<T>(ApiBase.apiDefendedUrl() + resource, config)
       .pipe(
         retry(AppConstants.HTTP_RETRY)
       )

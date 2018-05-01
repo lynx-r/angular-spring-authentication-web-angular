@@ -91,11 +91,11 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
         └── services
             ├── api-base.ts                 # Базовый сервис REST запросов
             ├── api-interceptor.ts
-            ├── api-secured.service.ts
+            ├── api-defended.service.ts
             ├── api-security.service.ts     # API сервис HTTP запросов и т.д.
             ├── cookies.service.ts
             ├── error-handling.service.ts
-            ├── secured.service.ts
+            ├── defended.service.ts
             ├── security.service.ts         # Сервис использующий HTTP API сервиса api-security.service
             ├── services.module.ts
             └── utils.service.ts
@@ -130,7 +130,7 @@ authorize(credentials: RegisterUser): Observable<AuthUser | Failure> {
 
 ## Полезная нагрузка на сервер
 
-Для отправки запросов на сервер есть обёртка `secured.service`, в которой вызывается метод `ping` `API` сервера на Spring.
+Для отправки запросов на сервер есть обёртка `defended.service`, в которой вызывается метод `ping` `API` сервера на Spring.
 
 ## Прерыватель запросов (api-interceptor)
 

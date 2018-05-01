@@ -54,8 +54,7 @@ export class AuthService {
   }
 
   logout() {
-    let authUser = this.cookieService.getAuthUser();
-    return this.securityService.logout(authUser)
+    return this.securityService.logout()
       .pipe(
         tap(() => this.cookieService.removeAuthUser()),
         catchError(error => {

@@ -1,10 +1,10 @@
 {
   "dev": {
-    "api_secured_url": "http://localhost:8080/secured",
+    "api_defended_url": "http://localhost:8080/defended",
     "api_security_url": "http://localhost:8080/security"
   },
   "prod": {
-    "api_secured_url": "http://localhost:8080/secured",
+    "api_defended_url": "http://localhost:8080/defended",
     "api_security_url": "http://localhost:8080/security"
   }
 }

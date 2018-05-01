@@ -24,6 +24,15 @@ export class ApiBase {
       .take(1)
   }
 
+  protected httpGet<T>(resource: string, options?: {}) {
+    options = ApiBase.commonOptions(options);
+    return this.http.get(resource, options)
+      .map((resp: HttpResponse<Answer>) => {
+        return this.processRequest(resp);
+      })
+      .take(1)
+  }
+
   private static commonOptions(options?: {}) {
     if (options == null) {
       options = {};
@@ -40,8 +49,8 @@ export class ApiBase {
     return ApiBase.getConfig().api_security_url;
   }
 
-  protected static apiSecuredUrl() {
-    return ApiBase.getConfig().api_secured_url;
+  protected static apiDefendedUrl() {
+    return ApiBase.getConfig().api_defended_url;
   }
 
   protected processRequest(resp: HttpResponse<Answer>) {
