@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {UserCredentials} from '../models/user-credentials';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AppConstants} from '../../core/config/app-constants';
@@ -8,20 +8,21 @@ import {AppConstants} from '../../core/config/app-constants';
   template: `
     <div>
       <div>Зарегистрируйтесь чтобы стать автором</div>
-      <div class="full-width">
-        <form [formGroup]="form" (ngSubmit)="submit()" class="full-width">
-          <p>
+      <div>
+        <form [formGroup]="form" (ngSubmit)="submit()">
           <div class="full-width">
             <input type="email" placeholder="Эл. почта"
                    formControlName="username">
           </div>
           <p>
-          <div class="full-width">
+          <div>
             <input type="password" placeholder="Пароль" formControlName="password">
           </div>
-          <p *ngIf="errorMessage" class="alert-danger full-width">
-            {{ errorMessage }}
-          </p>
+          <div *ngIf="errors.length > 0">
+            <div *ngFor="let error of errors">
+              <div class="alert-danger">{{error}}</div><br>
+            </div>
+          </div>
           <p class="loginButtons">
             <button type="submit">Зарегистрироваться</button>
           </p>
@@ -36,6 +37,10 @@ import {AppConstants} from '../../core/config/app-constants';
       margin: 72px 0;
     }
 
+    .alert-danger {
+      color: red;
+    }
+
     .loginButtons {
       display: flex;
       flex-direction: row;
@@ -43,7 +48,7 @@ import {AppConstants} from '../../core/config/app-constants';
     }
   `]
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnChanges {
 
   @Input()
   set pending(isPending: boolean) {
@@ -55,6 +60,7 @@ export class SignupComponent implements OnInit {
   }
 
   @Input() errorMessage: string | null;
+  errors: string[];
 
   @Output() submitted = new EventEmitter<UserCredentials>();
 
@@ -67,12 +73,19 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.errors = [];
     this.errorMessage = '';
+  }
+
+  ngOnChanges() {
+    if (!!this.errorMessage) {
+      this.errors = this.errorMessage.split(';');
+    }
   }
 
   submit() {
     if (this.form.valid) {
-      let credentials = <UserCredentials>{...this.form.value, type: AppConstants.REGISTER_USER_PAYLOAD_CLASS};
+      let credentials = <UserCredentials>{...this.form.value, type: AppConstants.USER_CREDENTIALS_PAYLOAD_CLASS};
       this.submitted.emit(credentials);
     }
   }

@@ -3,9 +3,8 @@ import {Store} from '@ngrx/store';
 import {DefendedService} from '../services/defended.service';
 import {PingPayload} from '../models/ping-payload';
 import {PongPayload} from '../models/pong-payload';
-import {AnswerMessage} from '../models/answer-message';
+import {MessageResponse} from '../models/message-response';
 import {Logout} from '../../auth/actions/auth';
-import {getLoggedInState, getUserState} from '../../auth/reducers/index';
 import {Observable} from 'rxjs/Observable';
 import {AuthUser} from '../../auth/models/auth-user';
 import {AuthService} from '../services/auth.service';
@@ -65,7 +64,7 @@ export class LandingComponent implements OnInit {
             this.error = '';
           }
         },
-        (error: AnswerMessage) => {
+        (error: MessageResponse) => {
           this.pong = null;
           this.error = error.message;
         }

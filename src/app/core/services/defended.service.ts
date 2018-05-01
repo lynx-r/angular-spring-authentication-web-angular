@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AppConstants} from '../config/app-constants';
 import {ApiDefendedService} from './api-defended.service';
-import {AnswerMessage} from '../models/answer-message';
+import {MessageResponse} from '../models/message-response';
 import {PingPayload} from '../models/ping-payload';
 import {PongPayload} from '../models/pong-payload';
 
@@ -15,7 +15,7 @@ export class DefendedService {
 
   ping(
     ping: PingPayload
-  ): Observable<PongPayload | AnswerMessage | boolean> {
+  ): Observable<PongPayload | MessageResponse | boolean> {
     return this.apiDefendedService
       .post(AppConstants.PING_RESOURCE, ping)
   }

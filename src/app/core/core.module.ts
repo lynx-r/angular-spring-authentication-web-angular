@@ -7,7 +7,7 @@ import {environment} from '../../environments/environment';
 import {StoreModule} from '@ngrx/store';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {metaReducers} from './reducers/reducer.reducer';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {CommonModule} from '@angular/common';
 import {LandingComponent} from './components/landing.component';
@@ -24,7 +24,6 @@ import {reducers} from '../auth/reducers';
     BrowserModule,
     BrowserAnimationsModule,
     CoreRoutingModule,
-    ServicesModule,
 
     CookieModule.forRoot(),
     StoreModule.forRoot(reducers, {metaReducers}),
@@ -39,6 +38,7 @@ import {reducers} from '../auth/reducers';
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
 
+    ServicesModule,
     AuthModule
   ],
   bootstrap: [AppComponent],

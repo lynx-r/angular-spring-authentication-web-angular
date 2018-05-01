@@ -50,11 +50,11 @@ export class ApiBase {
     return options;
   }
 
-  protected static apiSecurityUrl() {
+  static apiSecurityUrl() {
     return ApiBase.getConfig().api_security_url;
   }
 
-  protected static apiDefendedUrl() {
+  static apiDefendedUrl() {
     return ApiBase.getConfig().api_defended_url;
   }
 

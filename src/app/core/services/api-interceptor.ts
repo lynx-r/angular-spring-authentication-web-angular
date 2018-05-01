@@ -26,14 +26,6 @@ export class ApiInterceptor implements HttpInterceptor {
                     .append(AppConstants.USER_SESSION_HEADER, authUser.userSession)
               }
             );
-          } else {
-            clonedRequest = clonedRequest.clone(
-              {
-                headers:
-                  clonedRequest.headers
-                    .append(AppConstants.USER_ROLES_HEADER, AppConstants.ANONYMOUS_ROLE)
-              }
-            );
           }
           return next.handle(clonedRequest);
         }),

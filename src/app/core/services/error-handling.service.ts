@@ -5,7 +5,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Failure} from '../../auth/actions/auth';
 import {UtilsService} from './utils.service';
-import {AnswerMessage} from '../models/answer-message';
+import {MessageResponse} from '../models/message-response';
 
 @Injectable()
 export class ErrorHandlingService {
@@ -15,14 +15,12 @@ export class ErrorHandlingService {
   }
 
   private httpErrorMessage(error: HttpErrorResponse) {
-    let err = error.error;
-    return error.status == 0 ? error.message
-      : ((err != undefined && err.message !== undefined) ? err.message.message : error.message);
+    return error.status == 0 ? error.message : error.error.message;
   }
 
   handleAuthError(err: any) {
     let message;
-    if (err instanceof AnswerMessage) {
+    if (err instanceof MessageResponse) {
       message = err.message;
     } else {
       message = this.httpErrorMessage(err);

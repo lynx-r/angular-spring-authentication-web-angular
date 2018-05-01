@@ -1,4 +1,4 @@
-export class AnswerMessage {
+export class MessageResponse {
   message: string;
   code: number;
 }
