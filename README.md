@@ -33,15 +33,15 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
 
 ## О чем эта статья
 
-В этой статье я расскажу как добавить на ваш проект аутентификацию без помощи готовых решений для данной задачи. Я предлагаю посмотреть на приложения на Angular и Spring [Репозиторий клиента на Angular-ngrx-starter](https://github.com/lynx-r/angular-spring-authentication-web-angular) [Репозиторий сервера на Spring](https://github.com/lynx-r/angular-spring-authentication-server-spring).
+В этой статье я расскажу как написать простейшую аутентификацию без помощи готовых решений для данной задачи. Эта статья может быть полезна для новичков, которые хотят написать свою AAA (Authentication, Authorization, and Accounting). [Репозиторий клиента на Angular-ngrx-starter](https://github.com/lynx-r/angular-spring-authentication-web-angular) [Репозиторий сервера на Spring](https://github.com/lynx-r/angular-spring-authentication-server-spring).
 
-Здесь мы рассмотрим клиентскую часть на Angular-ngrx-starter.
+В данной статье мы рассмотрим клиентскую часть на Angular-ngrx-starter.
 
 <cut/>
 
 # Клиент использующий сервер аутентифкикации
 
-Пример данного клиента на Angular может использоваться для взаимодействия с кем угодно по REST API. 
+Пример клиента на Angular может использоваться для взаимодействия с чем угодно через REST API.
 
 Посмотрим на структуру проекта:
 
@@ -57,24 +57,11 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
     │   ├── containers
     │   │   ├── signin-page.component.ts
     │   │   └── signup-page.component.ts
-    │   ├── effects
-    │   │   └── auth.effects.ts
-    │   ├── models
-    │   │   ├── auth-user.ts
-    │   │   └── user-credentials.ts
-    │   ├── reducers
-    │   │   ├── auth.ts
-    │   │   ├── index.ts
-    │   │   └── login-page.ts
     │   └── services
     │       └── auth.service.ts
     └── core                                # Главный модуль
         ├── components
         │   └── index.component.ts
-        ├── config
-        │   ├── app-constants.ts
-        │   ├── config.json
-        │   └── profile.ts
         ├── containers
         │   ├── app.component.ts
         │   └── not-found-page.ts
@@ -89,22 +76,16 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
         ├── reducers
         │   └── reducer.reducer.ts
         └── services
-            ├── api-base.ts                 # Базовый сервис REST запросов
-            ├── api-interceptor.ts
-            ├── api-defended.service.ts
-            ├── api-security.service.ts     # API сервис HTTP запросов и т.д.
             ├── cookies.service.ts
             ├── error-handling.service.ts
-            ├── defended.service.ts
-            ├── security.service.ts         # Сервис использующий HTTP API сервиса api-security.service
+            ├── defended.service.ts         # Сервисе выполняющий запросы пользователя на сервер
+            ├── security.service.ts         # Сервис в котором реализовано обращение к ААА API сервера
             ├── services.module.ts
             └── utils.service.ts
     
-    15 directories, 41 files
-  
-## REST клиент для сервис аутентификации/авторизации/регистрации
+  ## REST клиент для сервис аутентификации/авторизации/регистрации
 
-Для коммуникации с сервером будем использовать обретку для `@angular/common/http/HttpClient` со следующей иерархией:
+Для коммуникации с сервером будем использовать обретки для `@angular/common/http/HttpClient` со следующей иерархией:
 
     api-base
     ├── api-security.service
@@ -112,7 +93,7 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
 
 В них мы имеем вызовы `API` сервера аутнетификации.
 
-Далее, ответы от сервиса `security.service` передаются ниже по иерархии в сервис `auth.service` в нем сохраняется состояние пользователя в `Store` и `Cookies`. `Cookies` используются для восстановления состояния аутнетифицированного пользователя после перезагрузки страницы. И в случае ошибок они обрабатываются путем отправления `Observable.throw` вниз по иерархии.
+Далее, ответы от сервиса `security.service` передаются ниже по иерархии в сервис `auth.service` в нем сохраняется состояние пользователя в `Store` и `Cookies`. `Cookies` используются для восстановления состояния аутнетифицированного пользователя после перезагрузки страницы. И в случае ошибок они обрабатываются путем отправления `Observable.throw` вверх по иерархии.
 
 Приведу пример метода аутентификации:
 
@@ -134,7 +115,7 @@ authorize(credentials: UserCredentials): Observable<AuthUser | Failure> {
 
 ## Прерыватель запросов (api-interceptor)
 
-Для отправки данных об аутентифицированном пользователе используются прерыватель HTTP запросов, который кладёт в заголовки эти данные.
+Для отправки данных об аутентифицированном пользователе используются прерыватель HTTP запросов, который кладёт в заголовки AccessToken и UserSession данные.
 
 Приведу пример кода:
 
@@ -156,14 +137,6 @@ intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> 
                   .append(AppConstants.USER_ROLES_HEADER, authUser.authorities.join(','))
             }
           );
-        } else {
-          clonedRequest = clonedRequest.clone(
-            {
-              headers:
-                clonedRequest.headers
-                  .append(AppConstants.USER_ROLES_HEADER, AppConstants.ANONYMOUS_ROLE)
-            }
-          );
         }
         return next.handle(clonedRequest);
       }),
@@ -178,7 +151,7 @@ intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> 
 
 ![Схема взаимодействия с сервером](https://github.com/lynx-r/angular-spring-authentication-web-angular/blob/master/Пример%20двух%20ping%20запросов%20на%20сервер.png)
 
-Как видно из диаграммы последовательностей, после загрузки страницы отправляется запрос на аутентификацию. Здесь рассмотрен случай с пройденной аутентификации. Далее, после получения этого запроса, сервер выдает токен. Нужно заметить, что токен выдаётся не просто так, а после авторизации, которая для упрощения схемы не показана. Подробности по авторизации можно прочитать в смежной статье. Затем, после генерации токена, возвращается ответ клиенту. Клиент сохраняет его и выполняет `ping` запрос к серверу с полученным ранее токеном. Сервер проверяет токен, генерирует новый токен и обрабатывает данные `ping` запроса. В нашем примере он просто формирует строку `"${data.getPing()} from ${authUser.getUsername()} and PONG from server"`. После получения ответа с сервера, клиент сохраняет токен и выполняет с этим токеном второй запрос.
+Как видно из диаграммы последовательностей, после загрузки страницы, я отправляю запрос на аутентификацию. Здесь рассмотрен случай с пройденной без ошибок аутентификацией. Далее, после получения этого запроса, сервер выдаёт токен. Нужно уточнить, что токен выдаётся не просто так, а после авторизации, которая для упрощения схемы не показана. Подробности по авторизации можно прочитать в смежной статье. Затем, после генерации токена на сервере, возвращается ответ клиенту. Клиент сохраняет этот токен и выполняет `ping` запрос к серверу. Сервер проверяет пришедший токен, обрабатывает данные `ping` запроса и генерирует новый токен. В нашем примере, он просто возвращает строку `"${data.getPing()} from ${authUser.getUsername()} and PONG from server"`. После получения ответа с сервера, клиент сохраняет токен и выполняет с этим новым токеном следующий запрос.
 
 Если токен потеряется или клиент его не правильно сохранит, то этот и следующие запросы не пройдут до тех пор, пока пользователь не авторизуется повторно.
 
@@ -188,7 +161,7 @@ intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> 
 
 # Заключение
 
-В этой статье мы рассмотрели как сделать простой клиент аутентификации с помощью Angular-ngrx-starter.
+В этой статье мы рассмотрели как сделать простой клиент аутентификации с помощью Angular, ngrx и проекта от Angular-RU, который упрощает работу с данной связкой.
 
 # Ссылки
 
