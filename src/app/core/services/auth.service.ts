@@ -27,7 +27,7 @@ export class AuthService {
       .pipe(
         tap(authUser => this.setAuthUserState(authUser)),
         catchError(error =>
-          this.errorHandler.handleAuthError(error)
+          ErrorHandlingService.handleAuthError(error)
         )
       )
   }
@@ -37,7 +37,7 @@ export class AuthService {
       .pipe(
         tap(authUser => this.setAuthUserState(authUser)),
         catchError(error => {
-          return this.errorHandler.handleAuthError(error);
+          return ErrorHandlingService.handleAuthError(error);
         })
       )
   }
@@ -48,7 +48,7 @@ export class AuthService {
       .pipe(
         tap(authedUser => this.setAuthUserState(authedUser)),
         catchError(error => {
-          return this.errorHandler.handleAuthError(error);
+          return ErrorHandlingService.handleAuthError(error);
         })
       )
   }
@@ -58,7 +58,7 @@ export class AuthService {
       .pipe(
         tap(() => this.cookieService.removeAuthUser()),
         catchError(error => {
-          return this.errorHandler.handleAuthError(error);
+          return ErrorHandlingService.handleAuthError(error);
         })
       )
       ;

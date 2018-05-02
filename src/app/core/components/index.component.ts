@@ -10,16 +10,16 @@ import {AuthUser} from '../../auth/models/auth-user';
 import {AuthService} from '../services/auth.service';
 
 @Component({
-  selector: 'app-landing',
+  selector: 'app-index',
   template: `
     <div>
       <a routerLink="/auth/SignUp">Зарегистрироваться</a>
     </div>
     <div *ngIf="!(loggedIn$ | async)">
-      <a routerLink="/auth/SignIn">Войти</a>
+      <a class="login" routerLink="/auth/SignIn">Войти</a>
     </div>
     <div *ngIf="loggedIn$ | async">
-      <a (click)="logout()">Выйти</a>
+      <a class="logout" (click)="logout()">Выйти</a>
     </div>
     <div *ngIf="loggedIn$ | async">
       Вы вошли как: {{(authUser$ | async).username}}
@@ -38,7 +38,7 @@ import {AuthService} from '../services/auth.service';
 
   `]
 })
-export class LandingComponent implements OnInit {
+export class IndexComponent implements OnInit {
 
   pong: PongPayload;
   error: string;

@@ -70,7 +70,7 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
     │       └── auth.service.ts
     └── core                                # Главный модуль
         ├── components
-        │   └── landing.component.ts
+        │   └── index.component.ts
         ├── config
         │   ├── app-constants.ts
         │   ├── config.json

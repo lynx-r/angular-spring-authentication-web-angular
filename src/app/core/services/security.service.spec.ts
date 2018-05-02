@@ -57,7 +57,6 @@ describe('SecurityService', () => {
     expect(mockReq.request.responseType).toEqual('json');
 
     mockReq.flush(mockRegisterUserBody);
-
     backend.verify();
   }));
 });

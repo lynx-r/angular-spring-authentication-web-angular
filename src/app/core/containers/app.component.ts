@@ -1,5 +1,5 @@
-import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import {
   Component,
   OnInit,
@@ -12,7 +12,7 @@ import {
   NavigationEnd,
   NavigationError,
   NavigationStart,
-  Router,
+  Router, RouterEvent,
 } from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {RootState} from '../reducers/reducer.reducer';
@@ -24,7 +24,10 @@ import {catchError, filter, switchMap, take, takeUntil} from 'rxjs/operators';
   selector: 'app-root',
   template: `
     <a (click)="handleBack()">Назад</a>
-    <router-outlet></router-outlet>
+    <div>
+      <h3>Авторизация и аутентификация на Angular</h3>
+      <router-outlet></router-outlet>
+    </div>
   `,
   styles: [`
     *, /deep/ * {
@@ -37,7 +40,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private navigationEnd$: Observable<any>;
   private navigationStart$: Subscription;
-  private navigationEndSubscription$: Subscription;
   private navigationAuthSubscription$: Subscription;
 
   constructor(private store: Store<RootState>,
@@ -48,12 +50,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.navigationEnd$ = this.router.events.filter(
-      event =>
-        event instanceof NavigationEnd ||
-        event instanceof NavigationCancel ||
-        event instanceof NavigationError
-    );
+    this.navigationEnd$ = this.router.events
+      .pipe(
+        filter((e: RouterEvent): e is NavigationEnd | NavigationCancel | NavigationEnd =>
+          e instanceof NavigationEnd
+          || e instanceof NavigationCancel
+          || e instanceof NavigationError
+        )
+      );
 
     this.navigationStart$ = this.router.events
       .pipe(
@@ -68,9 +72,14 @@ export class AppComponent implements OnInit, OnDestroy {
         switchMap(() => this.authService.authenticate()
           .pipe(
             catchError(error => {
-              // Можно игнорировать для анонимного пользователя
-              console.log(`Ошибка авторизации: ${error.payload}`);
-              return Observable.of(error);
+              if (!!error.payload.message) {
+                // Можно игнорировать для анонимного пользователя
+                console.log(error.payload.message, error.payload.code);
+                return Observable.of(error);
+              } else {
+                console.log(error.payload);
+                return Observable.of(error.payload);
+              }
             })
           )
         ),
@@ -80,9 +89,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.navigationAuthSubscription$.unsubscribe();
     this.navigationStart$.unsubscribe();
-    this.navigationEndSubscription$.unsubscribe();
+    this.navigationAuthSubscription$.unsubscribe();
   }
 
   handleBack() {

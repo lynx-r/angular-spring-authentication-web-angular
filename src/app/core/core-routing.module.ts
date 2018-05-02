@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {NotFoundPageComponent} from './containers/not-found-page';
-import {LandingComponent} from './components/landing.component';
+import {IndexComponent} from './components/index.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: LandingComponent,
+    component: IndexComponent,
   },
   {
     path: 'auth',

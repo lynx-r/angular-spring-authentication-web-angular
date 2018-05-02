@@ -10,7 +10,7 @@ import {metaReducers} from './reducers/reducer.reducer';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {CommonModule} from '@angular/common';
-import {LandingComponent} from './components/landing.component';
+import {IndexComponent} from './components/index.component';
 import {NgModule} from '@angular/core';
 import {ApiInterceptor} from './services/api-interceptor';
 import {AuthModule} from '../auth/auth.module';
@@ -44,7 +44,7 @@ import {reducers} from '../auth/reducers';
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
-    LandingComponent,
+    IndexComponent,
     NotFoundPageComponent,
   ],
   providers: [
