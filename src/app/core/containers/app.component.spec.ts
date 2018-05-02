@@ -18,29 +18,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EffectsModule} from '@ngrx/effects';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operators';
 import {IndexComponent} from '../components/index.component';
 import {AuthModule} from '../../auth/auth.module';
-import {AuthService} from '../services/auth.service';
 import {ApiBase} from '../services/api-base';
 import {SigninPageComponent} from '../../auth/containers/signin-page.component';
 import {SignupPageComponent} from '../../auth/containers/signup-page.component';
-
-@Component({selector: 'app-index', template: ''})
-class IndexStubComponent {
-}
-
-@Component({selector: 'router-outlet', template: ''})
-class RouterOutletStubComponent {
-}
-
-@Component({selector: 'app-signin-page', template: ''})
-class SigninPageStubComponent {
-}
-
-@Component({selector: 'app-signup-page', template: ''})
-class SignupPageStubComponent {
-}
 
 @Injectable()
 export class RouterStub {
@@ -59,33 +41,7 @@ export class RouterStub {
   }
 }
 
-class MockRouter {
-  public ne = new NavigationEnd(0, 'http://localhost:4200', 'http://localhost:4200');
-  public events = new Observable(observer => {
-    observer.next(this.ne);
-    observer.complete();
-  });
-}
-
-class MockRouterNoLogin {
-  public ne = new NavigationEnd(0, 'http://localhost:4200/dashboard', 'http://localhost:4200/dashboard');
-  public events = new Observable(observer => {
-    observer.next(this.ne);
-    observer.complete();
-  });
-}
-
 describe('AppComponent', () => {
-  let ne = new NavigationEnd(0, 'http://localhost:4200', 'http://localhost:4200');
-  let events: Observable<RouterEvent> = new Observable(observer => {
-    observer.next(ne);
-    observer.complete();
-  });
-  events = events.pipe(map(e => e));
-  // const routerSpy = jasmine.createSpyObj('Router', {navigateByUrl: 'navigateByUrl', events: events});
-  const securityServiceSpy: { authenticate: jasmine.Spy } =
-    jasmine.createSpyObj('SecurityService', ['authenticate']);
-
   let mockCredentials = {
     username: 'пользователь',
     password: 'мой пароль'
@@ -108,9 +64,7 @@ describe('AppComponent', () => {
     authUser: fakeAuthUser
   };
 
-  let linkDes: DebugElement[];
   let routerLinks: RouterLinkDirectiveStub[];
-  let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -145,11 +99,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        RouterOutletStubComponent,
         IndexComponent,
-        IndexStubComponent,
-        SigninPageStubComponent,
-        SignupPageStubComponent,
         RouterLinkDirectiveStub
       ],
       providers: [],
@@ -251,7 +201,7 @@ describe('AppComponent', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
 
-      mockReq.flush(mockAuthenticateBody);
+      mockReq.flush(mockRegisterUserBody);
       backend.verify();
 
       advance(fixture);
