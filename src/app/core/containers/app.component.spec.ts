@@ -109,12 +109,14 @@ describe('AppComponent', () => {
 
   it('should create the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
 
   it('should render title in a h3 tag', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h3').textContent).toContain('Авторизация и аутентификация на Angular');
   }));
