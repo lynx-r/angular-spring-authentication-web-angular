@@ -6,7 +6,7 @@ import {Component, DebugElement, Injectable, NO_ERRORS_SCHEMA} from '@angular/co
 import {BrowserModule, By} from '@angular/platform-browser';
 import {reducers} from '../../auth/reducers';
 import {combineReducers, StoreModule} from '@ngrx/store';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {AppConstants} from '../config/app-constants';
 import {SecurityService} from '../services/security.service';
 import {defer} from 'rxjs/observable/defer';
@@ -21,6 +21,10 @@ import {Observable} from 'rxjs/Observable';
 import {map} from 'rxjs/operators';
 import {IndexComponent} from '../components/index.component';
 import {AuthModule} from '../../auth/auth.module';
+import {AuthService} from '../services/auth.service';
+import {ApiBase} from '../services/api-base';
+import {SigninPageComponent} from '../../auth/containers/signin-page.component';
+import {SignupPageComponent} from '../../auth/containers/signup-page.component';
 
 @Component({selector: 'app-index', template: ''})
 class IndexStubComponent {
@@ -83,8 +87,7 @@ describe('AppComponent', () => {
     jasmine.createSpyObj('SecurityService', ['authenticate']);
 
   let mockCredentials = {
-    type: AppConstants.USER_CREDENTIALS_PAYLOAD_CLASS,
-    username: 'alex.po',
+    username: 'пользователь',
     password: 'мой пароль'
   };
   let fakeAuthUser = {
@@ -129,6 +132,14 @@ describe('AppComponent', () => {
           {
             path: '',
             component: IndexComponent
+          },
+          {
+            path: 'auth/SignIn',
+            component: SigninPageComponent
+          },
+          {
+            path: 'auth/SignUp',
+            component: SignupPageComponent
           }
         ]),
       ],
@@ -141,63 +152,114 @@ describe('AppComponent', () => {
         SignupPageStubComponent,
         RouterLinkDirectiveStub
       ],
-      providers: [
-        {provide: SecurityService, useValue: securityServiceSpy},
-        // {provide: Router, useValue: routerSpy},
-      ],
+      providers: [],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
-
-    fixture = TestBed.createComponent(AppComponent);
-
-    securityServiceSpy.authenticate.and.returnValue(asyncData(fakeAuthUser));
-    fixture.detectChanges();
-
-    // find DebugElements with an attached RouterLinkStubDirective
-    linkDes = fixture.debugElement
-      .queryAll(By.directive(RouterLinkDirectiveStub));
-
-    // get attached link directive instances
-    // using each DebugElement's injector
-    routerLinks = linkDes.map(de => de.injector.get(RouterLinkDirectiveStub));
   }));
 
   it('should create the app', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
 
   it('should render title in a h3 tag', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h3').textContent).toContain('Авторизация и аутентификация на Angular');
   }));
 
-  it('should show index page', fakeAsync(inject([Router, Location], (router: Router, location: Location) => {
-    const fixture = createRoot(router, AppComponent);
-    router.navigateByUrl('/');
-    advance(fixture);
-    expect(location.path()).toEqual('/');
+  it('should show index page', fakeAsync(inject([Router, Location, HttpTestingController],
+    (router: Router, location: Location, backend: HttpTestingController) => {
+      const fixture = createRoot(router, AppComponent);
+      router.navigateByUrl('/');
+      advance(fixture);
+      expect(location.path()).toEqual('/');
+      let mockReq = backend.expectOne(ApiBase.apiSecurityUrl() + AppConstants.AUTHENTICATE_RESOURCE);
 
-    let linkDes = fixture.debugElement.queryAll(By.directive(RouterLinkDirectiveStub));
-    routerLinks = linkDes.map(de => de.injector.get(RouterLinkDirectiveStub));
-    expect(routerLinks.length).toBe(2, 'should have 2 routerLinks');
-  })));
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
 
-  // it('can get RouterLinks from template', () => {
-  //   expect(routerLinks.length).toBe(3, 'should have 3 routerLinks');
-  //   expect(routerLinks[0].linkParams).toBe('/dashboard');
-  //   expect(routerLinks[1].linkParams).toBe('/heroes');
-  //   expect(routerLinks[2].linkParams).toBe('/about');
-  // });
+      mockReq.flush(mockAuthenticateBody);
+      backend.verify();
 
-  // it('should redirect to register page', async(() => {
-  //   fixture.detectChanges();
-  //
-  //   const app: DebugElement = fixture.debugElement;
-  //   const login = app.query(By.css('h5'));
-  //   const loginEl: HTMLElement = login.nativeElement;
-  //   expect(loginEl.textContent).toEqual('Привет!');
-  // }));
+      let linkDes = fixture.debugElement.queryAll(By.directive(RouterLinkDirectiveStub));
+      routerLinks = linkDes.map(de => de.injector.get(RouterLinkDirectiveStub));
+      expect(routerLinks.length).toBe(2, 'should have 2 routerLinks');
+      expect(routerLinks[0].linkParams).toBe('/auth/SignUp');
+      expect(routerLinks[1].linkParams).toBe('/auth/SignIn');
+    })));
+
+  it('should show login page', fakeAsync(inject([Router, Location, HttpTestingController],
+    (router: Router, location: Location, backend: HttpTestingController) => {
+      const fixture = createRoot(router, AppComponent);
+      router.navigateByUrl('/');
+      advance(fixture);
+      expect(location.path()).toEqual('/');
+      let mockReq = backend.expectOne(ApiBase.apiSecurityUrl() + AppConstants.AUTHENTICATE_RESOURCE);
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+
+      mockReq.flush(mockAuthenticateBody);
+      backend.verify();
+
+      const app: DebugElement = fixture.debugElement;
+      const login = app.query(By.css("a[href='/auth/SignIn']"));
+      const loginEl: HTMLElement = login.nativeElement;
+      expect(loginEl.textContent).toEqual('Войти');
+
+      loginEl.click();
+      advance(fixture);
+      expect(location.path()).toEqual('/auth/SignIn');
+    })));
+
+  it('should register', fakeAsync(inject([Router, Location, HttpTestingController],
+    (router: Router, location: Location, backend: HttpTestingController) => {
+      const fixture = createRoot(router, AppComponent);
+      router.navigateByUrl('/');
+      advance(fixture);
+      expect(location.path()).toEqual('/');
+      let mockReq = backend.expectOne(ApiBase.apiSecurityUrl() + AppConstants.AUTHENTICATE_RESOURCE);
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+
+      mockReq.flush(mockAuthenticateBody);
+      backend.verify();
+
+      const app: DebugElement = fixture.debugElement;
+      const login = app.query(By.css("a[href='/auth/SignUp']"));
+      const loginEl: HTMLElement = login.nativeElement;
+      expect(loginEl.textContent).toEqual('Зарегистрироваться');
+
+      loginEl.click();
+      advance(fixture);
+      expect(location.path()).toEqual('/auth/SignUp');
+
+      const email: HTMLInputElement = app.query(By.css("input[type=email]")).nativeElement;
+      email.value = mockCredentials.username;
+      const password: HTMLInputElement = app.query(By.css("input[type=password]")).nativeElement;
+      password.value = mockCredentials.username;
+
+      const submit: HTMLButtonElement = app.query(By.css('button[type=submit]')).nativeElement;
+      submit.click();
+      advance(fixture);
+
+      mockReq = backend.expectOne(ApiBase.apiSecurityUrl() + AppConstants.REGISTER_RESOURCE);
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+
+      mockReq.flush(mockAuthenticateBody);
+      backend.verify();
+
+      advance(fixture);
+      expect(location.path()).toEqual('/');
+
+      const logout: HTMLElement = app.queryAll(value => value.nativeElement.textContent == 'Выйти')[0].nativeElement;
+      expect(logout.textContent).toEqual('Выйти');
+    })));
 });
 
 /** Create async observable that emits-once and completes

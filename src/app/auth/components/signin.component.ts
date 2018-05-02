@@ -7,26 +7,25 @@ import {AppConstants} from '../../core/config/app-constants';
   selector: 'app-signin',
   template: `
     <div>
-      <div>Войдите для редактирования</div>
-      <div class="full-width">
-        <form [formGroup]="form" (ngSubmit)="submit()" class="full-width">
-          <p>
-          <div class="full-width">
+      <div>Войти</div>
+      <div>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <div>
             <input type="email" placeholder="Эл. почта"
                    formControlName="username">
           </div>
-          <p>
-          <div class="full-width">
-            <input type="password" placeholder="Пароль" formControlName="password">
+          <div>
+            <input type="password" placeholder="Пароль"
+                   formControlName="password">
           </div>
           <div *ngIf="errors.length > 0">
             <div *ngFor="let error of errors">
-              <div class="alert-danger">{{error}}</div><br>
+              <div class="alert-danger">{{error}}</div>
             </div>
           </div>
-          <p class="loginButtons">
+          <div class="loginButtons">
             <button type="submit">Войти</button>
-          </p>
+          </div>
         </form>
       </div>
     </div>
@@ -37,7 +36,7 @@ import {AppConstants} from '../../core/config/app-constants';
       justify-content: center;
       margin: 72px 0;
     }
-    
+
     .alert-danger {
       color: red;
     }

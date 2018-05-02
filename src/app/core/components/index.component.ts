@@ -16,10 +16,10 @@ import {AuthService} from '../services/auth.service';
       <a routerLink="/auth/SignUp">Зарегистрироваться</a>
     </div>
     <div *ngIf="!(loggedIn$ | async)">
-      <a class="login" routerLink="/auth/SignIn">Войти</a>
+      <a routerLink="/auth/SignIn">Войти</a>
     </div>
     <div *ngIf="loggedIn$ | async">
-      <a class="logout" (click)="logout()">Выйти</a>
+      <a (click)="logout()">Выйти</a>
     </div>
     <div *ngIf="loggedIn$ | async">
       Вы вошли как: {{(authUser$ | async).username}}
