@@ -43,20 +43,4 @@ describe('SecurityService', () => {
   it('should be created', inject([SecurityService], (service: SecurityService) => {
     expect(service).toBeTruthy();
   }));
-
-  it('should register user', inject([SecurityService, HttpTestingController], (service: SecurityService, backend: HttpTestingController) => {
-    service.register(mockCredentials)
-      .subscribe(authUser =>
-          expect(authUser.accessToken).not.toBeNull(),
-        fail
-      );
-
-    let mockReq = backend.expectOne(ApiBase.apiSecurityUrl() + AppConstants.REGISTER_RESOURCE);
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-
-    mockReq.flush(mockRegisterUserBody);
-    backend.verify();
-  }));
 });

@@ -9,7 +9,7 @@
     "start": "ng serve --aot",
     "prod": "rm -rf dist/app && yarn ng build --aot -prod --base-href \"/app\" --output-path \"dist/app\" --deploy-url \"/app\"",
     "deploy": "rm -rf ~/Sites/app/* && cp -r dist/app ~/Sites",
-    "test": "ng test",
+    "test": "ng test -sm=false",
     "lint": "tslint ./src/**/*.ts -t verbose",
     "e2e": "ng e2e"
   },

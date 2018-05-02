@@ -148,18 +148,19 @@ describe('AppComponent', () => {
       router.navigateByUrl('/');
       advance(fixture);
       expect(location.path()).toEqual('/');
+
       let mockReq = backend.expectOne(ApiBase.apiSecurityUrl() + AppConstants.AUTHENTICATE_RESOURCE);
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
 
-      mockReq.flush(mockAuthenticateBody);
+      mockReq.flush(mockRegisterUserBody);
       backend.verify();
 
       const app: DebugElement = fixture.debugElement;
       const login = app.query(By.css("a[href='/auth/SignIn']"));
       const loginEl: HTMLElement = login.nativeElement;
-      expect(loginEl.textContent).toEqual('Войти');
+      expect(loginEl).not.toBeNull();
 
       loginEl.click();
       advance(fixture);
@@ -171,13 +172,13 @@ describe('AppComponent', () => {
       const fixture = createRoot(router, AppComponent);
       router.navigateByUrl('/');
       advance(fixture);
-      expect(location.path()).toEqual('/');
+
       let mockReq = backend.expectOne(ApiBase.apiSecurityUrl() + AppConstants.AUTHENTICATE_RESOURCE);
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
 
-      mockReq.flush(mockAuthenticateBody);
+      mockReq.flush(mockRegisterUserBody);
       backend.verify();
 
       const app: DebugElement = fixture.debugElement;
@@ -210,7 +211,7 @@ describe('AppComponent', () => {
       expect(location.path()).toEqual('/');
 
       const logout: HTMLElement = app.queryAll(value => value.nativeElement.textContent == 'Выйти')[0].nativeElement;
-      expect(logout.textContent).toEqual('Выйти');
+      expect(logout).not.toBeNull();
     })));
 });
 
