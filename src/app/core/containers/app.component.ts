@@ -18,7 +18,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {RootState} from '../reducers/reducer.reducer';
 import {Location} from '@angular/common';
 import {AuthService} from '../services/auth.service';
-import {catchError, filter, switchMap, take, takeUntil} from 'rxjs/operators';
+import {filter, switchMap, take, takeUntil} from 'rxjs/operators';
+import {Failure} from '../../auth/actions/auth';
 
 @Component({
   selector: 'app-root',
@@ -70,18 +71,10 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(
         filter(event => event instanceof NavigationEnd),
         switchMap(() => this.authService.authenticate()
-          .pipe(
-            catchError(error => {
-              if (!!error.payload.message) {
-                // Можно игнорировать для анонимного пользователя
-                console.log(error.payload.message, error.payload.code);
-                return Observable.of(error);
-              } else {
-                console.log(error.payload);
-                return Observable.of(error.payload);
-              }
-            })
-          )
+          .catch((error: Failure ) => {
+            console.log("Анонимно не достучаться ;)");
+            return Observable.of(error);
+          })
         ),
         take(1)
       )

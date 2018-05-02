@@ -5,8 +5,9 @@ import {Answer} from '../models/answer';
 import {Injectable} from '@angular/core';
 import {RootState} from '../reducers/reducer.reducer';
 import {Store} from '@ngrx/store';
-import {Authenticated} from '../../auth/actions/auth';
-import {map, take} from 'rxjs/operators';
+import {Authenticated, Failure} from '../../auth/actions/auth';
+import {catchError, map, take} from 'rxjs/operators';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class ApiBase {
@@ -23,6 +24,9 @@ export class ApiBase {
         map((resp: HttpResponse<Answer>) => {
           return this.processRequest(resp);
         }),
+        catchError(error => {
+          return Observable.throw(new Failure(error.error.message.message));
+        }),
         take(1)
       )
   }
@@ -34,6 +38,9 @@ export class ApiBase {
         map((resp: HttpResponse<Answer>) => {
           return this.processRequest(resp);
         }),
+        catchError(error => {
+          return Observable.throw(new Failure(error.error.message.message));
+        }),
         take(1)
       )
   }
@@ -44,7 +51,6 @@ export class ApiBase {
     }
     options = {
       ...options,
-      observe: 'response',
       withCredentials: true
     };
     return options;
@@ -60,16 +66,8 @@ export class ApiBase {
 
   protected processRequest(resp: HttpResponse<Answer>) {
     let body = resp.body;
-    if (!!body) {
-      if (body.statusCode == 200 || body.statusCode == 201) {
-        this.store.dispatch(new Authenticated(body.authUser));
-        return body.body;
-      } else {
-        throw body.message
-      }
-    } else {
-      return false;
-    }
+    this.store.dispatch(new Authenticated(body.authUser));
+    return body.body;
   }
 
   private static getConfig() {

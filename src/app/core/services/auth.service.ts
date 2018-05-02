@@ -4,9 +4,8 @@ import {Observable} from 'rxjs/Observable';
 import {SecurityService} from './security.service';
 import {Store} from '@ngrx/store';
 import {RootState} from '../reducers/reducer.reducer';
-import {catchError, map, take, tap} from 'rxjs/operators';
-import {ErrorHandlingService} from './error-handling.service';
-import {Authenticated, Failure} from '../../auth/actions/auth';
+import { map, take, tap} from 'rxjs/operators';
+import {Authenticated} from '../../auth/actions/auth';
 import {CookiesService} from './cookies.service';
 import {AuthUser} from '../../auth/models/auth-user';
 import {getLoggedInState, getUserState} from '../../auth/reducers';
@@ -18,27 +17,20 @@ export class AuthService {
     private securityService: SecurityService,
     private cookieService: CookiesService,
     private store: Store<RootState>,
-    private errorHandler: ErrorHandlingService
   ) {
   }
 
-  register(credentials: UserCredentials): Observable<AuthUser | Failure> {
+  register(credentials: UserCredentials): Observable<AuthUser> {
     return this.securityService.register(credentials)
       .pipe(
-        tap(authUser => this.setAuthUserState(authUser)),
-        catchError(error =>
-          ErrorHandlingService.handleAuthError(error)
-        )
+        tap(authUser => this.setAuthUserState(authUser))
       )
   }
 
-  authorize(credentials: UserCredentials): Observable<AuthUser | Failure> {
+  authorize(credentials: UserCredentials): Observable<AuthUser> {
     return this.securityService.authorize(credentials)
       .pipe(
-        tap(authUser => this.setAuthUserState(authUser)),
-        catchError(error => {
-          return ErrorHandlingService.handleAuthError(error);
-        })
+        tap(authUser => this.setAuthUserState(authUser))
       )
   }
 
@@ -46,22 +38,15 @@ export class AuthService {
     let authUser = this.cookieService.getAuthUser();
     return this.securityService.authenticate(authUser)
       .pipe(
-        tap(authedUser => this.setAuthUserState(authedUser)),
-        catchError(error => {
-          return ErrorHandlingService.handleAuthError(error);
-        })
+        tap(authedUser => this.setAuthUserState(authedUser))
       )
   }
 
   logout() {
     return this.securityService.logout()
       .pipe(
-        tap(() => this.cookieService.removeAuthUser()),
-        catchError(error => {
-          return ErrorHandlingService.handleAuthError(error);
-        })
+        tap(() => this.cookieService.removeAuthUser())
       )
-      ;
   }
 
   isLoggedIn() {

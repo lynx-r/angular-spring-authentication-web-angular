@@ -4,7 +4,7 @@ import {DefendedService} from '../services/defended.service';
 import {PingPayload} from '../models/ping-payload';
 import {PongPayload} from '../models/pong-payload';
 import {MessageResponse} from '../models/message-response';
-import {Logout} from '../../auth/actions/auth';
+import {Failure, Logout} from '../../auth/actions/auth';
 import {Observable} from 'rxjs/Observable';
 import {AuthUser} from '../../auth/models/auth-user';
 import {AuthService} from '../services/auth.service';
@@ -64,9 +64,9 @@ export class IndexComponent implements OnInit {
             this.error = '';
           }
         },
-        (error: MessageResponse) => {
+        (error: Failure) => {
           this.pong = null;
-          this.error = error.message;
+          this.error = error.payload;
         }
       );
   }
