@@ -11,8 +11,5 @@ export class ApiDefendedService extends ApiBase {
   post<T>(resource: string, config: any): Observable<T | MessageResponse | boolean> {
     return super
       .httpPost<T>(ApiBase.apiDefendedUrl() + resource, config)
-      .pipe(
-        retry(AppConstants.HTTP_RETRY)
-      )
   }
 }

@@ -26,6 +26,7 @@ export class CookiesService {
   }
 
   putAuthUser(authUser: AuthUser) {
+    console.log('putting', authUser);
     let authUserOld = this.getAuthUser();
     if (!authUserOld || !!authUser && authUserOld.accessToken != authUser.accessToken) {
       this.cookieService.remove(AppConstants.AUTH_USER_COOKIE);
@@ -39,6 +40,7 @@ export class CookiesService {
         }
       }
       this.cookieService.putObject(AppConstants.AUTH_USER_COOKIE, authUser, options);
+      console.log('put', authUser);
     }
   }
 

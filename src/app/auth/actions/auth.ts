@@ -12,6 +12,8 @@ export enum AuthActionTypes {
   LOGIN_SUCCESS = '[Auth] Login Success',
   LOGIN_REDIRECT = '[Auth] Login Redirect',
 
+  LOGOUT_SUCCESS = '[Auth] Logout Success',
+
   FAILURE = '[Auth] Failure',
 }
 
@@ -50,6 +52,10 @@ export class LoginSuccess implements Action {
   }
 }
 
+export class LogoutSuccess implements Action {
+  readonly type = AuthActionTypes.LOGOUT_SUCCESS;
+}
+
 export class Failure implements Action {
   readonly type = AuthActionTypes.FAILURE;
 
@@ -73,4 +79,5 @@ export type AuthActions =
   | LoginSuccess
   | Failure
   | LoginRedirect
-  | Logout;
+  | Logout
+  | LogoutSuccess;

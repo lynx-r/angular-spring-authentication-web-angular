@@ -23,13 +23,14 @@ export function authReducer(state = initialState, action: AuthActions): AuthStat
       };
 
     case AuthActionTypes.AUTHENTICATED:
+      console.log('auth', action);
       return {
         ...state,
         loggedIn: UtilsService.isLoggedIn(action.payload),
         user: action.payload
       };
 
-    case AuthActionTypes.LOGOUT:
+    case AuthActionTypes.LOGOUT_SUCCESS:
       return {
         ...state,
         loggedIn: false,

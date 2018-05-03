@@ -77,7 +77,6 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
         │   └── reducer.reducer.ts
         └── services
             ├── cookies.service.ts
-            ├── error-handling.service.ts
             ├── defended.service.ts         # Сервисе выполняющий запросы пользователя на сервер
             ├── security.service.ts         # Сервис, в котором реализовано обращение к ААА API сервера
             ├── services.module.ts

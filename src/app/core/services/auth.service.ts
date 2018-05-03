@@ -9,6 +9,7 @@ import {Authenticated} from '../../auth/actions/auth';
 import {CookiesService} from './cookies.service';
 import {AuthUser} from '../../auth/models/auth-user';
 import {getLoggedInState, getUserState} from '../../auth/reducers';
+import {Answer} from '../models/answer';
 
 @Injectable()
 export class AuthService {
@@ -23,14 +24,16 @@ export class AuthService {
   register(credentials: UserCredentials): Observable<AuthUser> {
     return this.securityService.register(credentials)
       .pipe(
-        tap(authUser => this.setAuthUserState(authUser))
+        map((answer: Answer) => answer.authUser),
+        tap((authUser: AuthUser) => this.setAuthUserState(authUser))
       )
   }
 
   authorize(credentials: UserCredentials): Observable<AuthUser> {
     return this.securityService.authorize(credentials)
       .pipe(
-        tap(authUser => this.setAuthUserState(authUser))
+        map((answer: Answer) => answer.authUser),
+        tap((authUser: AuthUser) => this.setAuthUserState(authUser))
       )
   }
 
@@ -38,7 +41,8 @@ export class AuthService {
     let authUser = this.cookieService.getAuthUser();
     return this.securityService.authenticate(authUser)
       .pipe(
-        tap(authedUser => this.setAuthUserState(authedUser))
+        map((answer: Answer) => answer.authUser),
+        tap((authUser: AuthUser) => this.setAuthUserState(authUser))
       )
   }
 
@@ -58,6 +62,7 @@ export class AuthService {
       .pipe(
         map(authUser => {
           if (!!authUser) {
+            console.log('select',authUser);
             return authUser;
           }
           return this.cookieService.getAuthUser();

@@ -24,15 +24,7 @@ import {AuthService} from '../services/auth.service';
     <div *ngIf="loggedIn$ | async">
       Вы вошли как: {{(authUser$ | async).username}}
     </div>
-    <div>
-      <a (click)="sendPing()">Послать пинг</a>
-    </div>
-    <div>
-      Ответ:
-      <span *ngIf="!!pong">{{pong?.pong}}</span>
-      <span *ngIf="!pong && !error">Ответ ещё не получен</span>
-      <span *ngIf="!!error">{{error}}</span>
-    </div>
+    <app-ping></app-ping>
   `,
   styles: [`
 
@@ -40,35 +32,16 @@ import {AuthService} from '../services/auth.service';
 })
 export class IndexComponent implements OnInit {
 
-  pong: PongPayload;
-  error: string;
   authUser$: Observable<AuthUser>;
   loggedIn$: Observable<boolean>;
 
   constructor(private store: Store<any>,
-              private authService: AuthService,
-              private defendedService: DefendedService) {
+              private authService: AuthService) {
     this.authUser$ = this.authService.getLoggedUser();
     this.loggedIn$ = this.authService.isLoggedIn();
   }
 
   ngOnInit() {
-  }
-
-  sendPing() {
-    this.defendedService.ping(new PingPayload('PING'))
-      .subscribe(
-        (pong) => {
-          if (!!pong) {
-            this.pong = pong as PongPayload;
-            this.error = '';
-          }
-        },
-        (error: Failure) => {
-          this.pong = null;
-          this.error = error.payload;
-        }
-      );
   }
 
   logout() {

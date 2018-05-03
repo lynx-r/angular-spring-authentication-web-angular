@@ -1,0 +1,7 @@
+<div>
+  <a (click)="sendPing()">Послать пинг</a>
+</div>
+<div>
+  Ответ:
+  <div *ngIf="!!(pong$ | async)">{{pong$ | async}}</div>
+</div>

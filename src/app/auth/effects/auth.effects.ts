@@ -9,7 +9,7 @@ import {Effect, Actions, ofType} from '@ngrx/effects';
 
 import {AuthService} from '../../core/services/auth.service';
 import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
-import {AuthActionTypes, Login, LoginSuccess, Register, RegisterSuccess} from '../actions/auth';
+import {AuthActionTypes, Login, LoginSuccess, LogoutSuccess, Register, RegisterSuccess} from '../actions/auth';
 import {Observable} from 'rxjs/Observable';
 import {AuthUser} from '../models/auth-user';
 
@@ -49,6 +49,7 @@ export class AuthEffects {
               this.router.navigate(['/'])
             ),
             catchError((error) => {
+              console.log('auth', error);
               return Observable.of(error);
             })
           )
@@ -60,11 +61,12 @@ export class AuthEffects {
     .pipe(
       ofType(AuthActionTypes.LOGOUT),
       switchMap(() =>
-        this.authService
-          .logout()
+        this.authService.logout()
           .pipe(
+            map(() => new LogoutSuccess()),
             tap(() => this.router.navigate(['/auth/SignIn'])),
             catchError((error) => {
+              console.log('logout', error);
               return Observable.of(error);
             })
           )

@@ -17,6 +17,7 @@ import {AuthModule} from '../auth/auth.module';
 import {ServicesModule} from './services/services.module';
 import {CookieModule} from 'ngx-cookie';
 import {reducers} from '../auth/reducers';
+import {PingModule} from '../ping/ping.module';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import {reducers} from '../auth/reducers';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
 
     ServicesModule,
-    AuthModule
+    AuthModule,
+    PingModule
   ],
   bootstrap: [AppComponent],
   declarations: [

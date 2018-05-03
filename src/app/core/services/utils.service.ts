@@ -10,8 +10,12 @@ export class UtilsService {
     return profile == 'prod';
   }
 
-  static isLoggedIn(authUser: AuthUser | null) {
-    return !!authUser && !(authUser.authorities
-      .indexOf(AppConstants.ANONYMOUS_ROLE) > -1);
+  static isLoggedIn(authUser) {
+    if (!!authUser) {
+      console.log('authUser', authUser);
+    }
+    return !!authUser && !!authUser.authorities
+      && !(authUser.authorities
+        .indexOf(AppConstants.ANONYMOUS_ROLE) > -1);
   }
 }

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ErrorHandlingService} from './error-handling.service';
 import {CookiesService} from './cookies.service';
 import {CookieService} from 'ngx-cookie';
 import {UtilsService} from './utils.service';
@@ -33,7 +32,6 @@ import {HttpClientModule} from '@angular/common/http';
     CookiesService,
 
     UtilsService,
-    ErrorHandlingService,
   ]
 })
 export class ServicesModule { }
