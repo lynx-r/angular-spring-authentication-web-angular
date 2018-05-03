@@ -133,7 +133,6 @@ intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> 
                 clonedRequest.headers
                   .append(AppConstants.ACCESS_TOKEN_HEADER, authUser.accessToken)
                   .append(AppConstants.USER_SESSION_HEADER, authUser.userSession)
-                  .append(AppConstants.USER_ROLES_HEADER, authUser.authorities.join(','))
             }
           );
         }
