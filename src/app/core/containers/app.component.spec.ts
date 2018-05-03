@@ -1,8 +1,8 @@
 import {TestBed, async, ComponentFixture, inject, tick, fakeAsync} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {CommonModule, Location} from '@angular/common';
-import {NavigationEnd, Router} from '@angular/router';
-import {DebugElement, Injectable, NO_ERRORS_SCHEMA} from '@angular/core';
+import {Router} from '@angular/router';
+import {DebugElement, NO_ERRORS_SCHEMA} from '@angular/core';
 import {BrowserModule, By} from '@angular/platform-browser';
 import {reducers} from '../../auth/reducers';
 import {combineReducers, StoreModule} from '@ngrx/store';
@@ -14,94 +14,16 @@ import {ServicesModule} from '../services/services.module';
 import {CookieModule} from 'ngx-cookie';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EffectsModule} from '@ngrx/effects';
-import {Subject} from 'rxjs/Subject';
 import {IndexComponent} from '../components/index.component';
 import {AuthModule} from '../../auth/auth.module';
 import {ApiBase} from '../services/api-base';
 import {SigninPageComponent} from '../../auth/containers/signin-page.component';
 import {SignupPageComponent} from '../../auth/containers/signup-page.component';
+import {CookiesService} from '../services/cookies.service';
 
-@Injectable()
-export class RouterStub {
-  public url;
-  private subject = new Subject();
-  public events = this.subject.asObservable();
-
-  navigateByUrl(url: string) {
-    this.url = url;
-    this.triggerNavEvents(url);
-  }
-
-  triggerNavEvents(url) {
-    let ne = new NavigationEnd(0, url, null);
-    this.subject.next(ne);
-  }
-}
-
-describe('AppComponent', () => {
-  let mockCredentials = {
-    username: 'пользователь',
-    password: 'мой пароль'
-  };
-  let fakeAuthUser = {
-    userId: 'я',
-    username: 'пользователь',
-    accessToken: '123',
-    userSession: '123',
-    authorities: ['USER']
-  };
-  let mockRegisterUserBody = {
-    statusCode: 201,
-    body: fakeAuthUser,
-    authUser: fakeAuthUser
-  };
-  let mockAuthenticateBody = {
-    statusCode: 200,
-    body: fakeAuthUser,
-    authUser: fakeAuthUser
-  };
-
-  let routerLinks: RouterLinkDirectiveStub[];
-
+describe('AppComponent base', () => {
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        CookieModule.forRoot(),
-
-        ServicesModule,
-        AuthModule,
-        StoreModule.forRoot({
-          ...reducers,
-          'feature': combineReducers(reducers)
-        }),
-        EffectsModule.forRoot([]),
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([
-          {
-            path: '',
-            component: IndexComponent
-          },
-          {
-            path: 'auth/SignIn',
-            component: SigninPageComponent
-          },
-          {
-            path: 'auth/SignUp',
-            component: SignupPageComponent
-          }
-        ]),
-      ],
-      declarations: [
-        AppComponent,
-        IndexComponent,
-        RouterLinkDirectiveStub
-      ],
-      providers: [],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).compileComponents();
+    configTestBed();
   }));
 
   it('should create the app', async(() => {
@@ -117,20 +39,23 @@ describe('AppComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h3').textContent).toContain('Авторизация и аутентификация на Angular');
   }));
+});
 
-  it('should show index page', fakeAsync(inject([Router, Location, HttpTestingController],
-    (router: Router, location: Location, backend: HttpTestingController) => {
+describe('AppComponent index', () => {
+  let routerLinks: RouterLinkDirectiveStub[];
+
+  beforeEach(async(() => {
+    configTestBed()
+  }));
+
+  it('should show index page', fakeAsync(inject([Router, Location, CookiesService],
+    (router: Router, location: Location, cookieService: CookiesService) => {
+      cookieService.removeAuthUser();
+
       const fixture = createRoot(router, AppComponent);
       router.navigateByUrl('/');
       advance(fixture);
       expect(location.path()).toEqual('/');
-      let mockReq = backend.expectOne(ApiBase.apiSecurityUrl() + AppConstants.AUTHENTICATE_RESOURCE);
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-
-      mockReq.flush(mockAuthenticateBody);
-      backend.verify();
 
       let linkDes = fixture.debugElement.queryAll(By.directive(RouterLinkDirectiveStub));
       routerLinks = linkDes.map(de => de.injector.get(RouterLinkDirectiveStub));
@@ -138,21 +63,21 @@ describe('AppComponent', () => {
       expect(routerLinks[0].linkParams).toBe('/auth/SignUp');
       expect(routerLinks[1].linkParams).toBe('/auth/SignIn');
     })));
+});
 
-  it('should show login page', fakeAsync(inject([Router, Location, HttpTestingController],
-    (router: Router, location: Location, backend: HttpTestingController) => {
+describe('AppComponent login', () => {
+  beforeEach(async(() => {
+    configTestBed()
+  }));
+
+  it('should show login page', fakeAsync(inject([Router, Location, CookiesService],
+    (router: Router, location: Location, cookieService: CookiesService) => {
+      cookieService.removeAuthUser();
+
       const fixture = createRoot(router, AppComponent);
       router.navigateByUrl('/');
       advance(fixture);
       expect(location.path()).toEqual('/');
-
-      let mockReq = backend.expectOne(ApiBase.apiSecurityUrl() + AppConstants.AUTHENTICATE_RESOURCE);
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-
-      mockReq.flush(mockRegisterUserBody);
-      backend.verify();
 
       const app: DebugElement = fixture.debugElement;
       const login = app.query(By.css("a[href='/auth/SignIn']"));
@@ -164,19 +89,20 @@ describe('AppComponent', () => {
       expect(location.path()).toEqual('/auth/SignIn');
     })));
 
-  it('should register', fakeAsync(inject([Router, Location, HttpTestingController],
-    (router: Router, location: Location, backend: HttpTestingController) => {
+});
+
+describe('AppComponent register', () => {
+  beforeEach(async(() => {
+    configTestBed();
+  }));
+
+  it('should register', fakeAsync(inject([Router, Location, HttpTestingController, CookiesService],
+    (router: Router, location: Location, backend: HttpTestingController, cookieService: CookiesService) => {
+      cookieService.removeAuthUser();
+
       const fixture = createRoot(router, AppComponent);
       router.navigateByUrl('/');
       advance(fixture);
-
-      let mockReq = backend.expectOne(ApiBase.apiSecurityUrl() + AppConstants.AUTHENTICATE_RESOURCE);
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-
-      mockReq.flush(mockRegisterUserBody);
-      backend.verify();
 
       const app: DebugElement = fixture.debugElement;
       const login = app.query(By.css("a[href='/auth/SignUp']"));
@@ -196,13 +122,7 @@ describe('AppComponent', () => {
       submit.click();
       advance(fixture);
 
-      mockReq = backend.expectOne(ApiBase.apiSecurityUrl() + AppConstants.REGISTER_RESOURCE);
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-
-      mockReq.flush(mockRegisterUserBody);
-      backend.verify();
+      authRequest(backend, mockAuthenticateBody, AppConstants.REGISTER_RESOURCE);
 
       advance(fixture);
       expect(location.path()).toEqual('/');
@@ -224,3 +144,72 @@ function createRoot(router: Router, type: any): ComponentFixture<any> {
   advance(f);
   return f;
 }
+
+
+let authRequest = function (backend: HttpTestingController, mockAuthenticateBody, authResource) {
+  let mockReq = backend.expectOne(ApiBase.apiSecurityUrl() + authResource);
+
+  expect(mockReq.cancelled).toBeFalsy();
+  expect(mockReq.request.responseType).toEqual('json');
+
+  mockReq.flush(mockAuthenticateBody);
+  backend.verify();
+};
+
+let configTestBed = function () {
+  TestBed.configureTestingModule({
+    imports: [
+      CommonModule,
+      BrowserModule,
+      BrowserAnimationsModule,
+      CookieModule.forRoot(),
+
+      ServicesModule,
+      AuthModule,
+      StoreModule.forRoot({
+        ...reducers,
+        'feature': combineReducers(reducers)
+      }),
+      EffectsModule.forRoot([]),
+      HttpClientTestingModule,
+      RouterTestingModule.withRoutes([
+        {
+          path: '',
+          component: IndexComponent
+        },
+        {
+          path: 'auth/SignIn',
+          component: SigninPageComponent
+        },
+        {
+          path: 'auth/SignUp',
+          component: SignupPageComponent
+        }
+      ]),
+    ],
+    declarations: [
+      AppComponent,
+      IndexComponent,
+      RouterLinkDirectiveStub
+    ],
+    providers: [],
+    schemas: [NO_ERRORS_SCHEMA]
+  }).compileComponents();
+};
+
+let mockCredentials = {
+  username: 'пользователь',
+  password: 'мой пароль'
+};
+let fakeAuthUser = {
+  userId: 'я',
+  username: 'пользователь',
+  accessToken: '123',
+  userSession: '123',
+  authorities: ['USER']
+};
+let mockAuthenticateBody = {
+  statusCode: 200,
+  body: fakeAuthUser,
+  authUser: fakeAuthUser
+};

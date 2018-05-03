@@ -29,9 +29,7 @@ export class CookiesService {
     let authUserOld = this.getAuthUser();
     if (!authUserOld || !!authUser && authUserOld.accessToken != authUser.accessToken) {
       this.cookieService.remove(AppConstants.AUTH_USER_COOKIE);
-      let options: CookieOptions = {
-        expires: new Date(Date.now() + (1000 * 60 * 60)),
-      };
+      let options: CookieOptions = {};
       if (UtilsService.isProdProfile()) {
         options = {
           ...options,
