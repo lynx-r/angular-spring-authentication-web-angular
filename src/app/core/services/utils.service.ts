@@ -11,10 +11,7 @@ export class UtilsService {
   }
 
   static isLoggedIn(authUser) {
-    if (!!authUser) {
-      console.log('authUser', authUser);
-    }
-    return !!authUser && !!authUser.authorities
+    return !!authUser
       && !(authUser.authorities
         .indexOf(AppConstants.ANONYMOUS_ROLE) > -1);
   }

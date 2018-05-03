@@ -16,21 +16,21 @@ export class SecurityService {
 
   register(
     userCredentials: UserCredentials
-  ): Observable<Answer> {
+  ): Observable<AuthUser> {
     return this.apiSecurityService
       .post(AppConstants.REGISTER_RESOURCE, userCredentials)
   }
 
   authorize(
     userCredentials: UserCredentials
-  ): Observable<Answer> {
+  ): Observable<AuthUser> {
     return this.apiSecurityService
       .post(AppConstants.AUTHORIZE_RESOURCE, userCredentials)
   }
 
   authenticate(
     authUser: AuthUser | null
-  ): Observable<Answer> {
+  ): Observable<AuthUser> {
     if (authUser == null) {
       return Observable.empty();
     }

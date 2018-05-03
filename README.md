@@ -77,7 +77,7 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
         │   └── reducer.reducer.ts
         └── services
             ├── cookies.service.ts
-            ├── defended.service.ts         # Сервисе выполняющий запросы пользователя на сервер
+            ├── ping.service.ts         # Сервисе выполняющий запросы пользователя на сервер
             ├── security.service.ts         # Сервис, в котором реализовано обращение к ААА API сервера
             ├── services.module.ts
             └── utils.service.ts
@@ -110,7 +110,7 @@ authorize(credentials: UserCredentials): Observable<AuthUser | Failure> {
 
 ## Полезная нагрузка на сервер
 
-Для отправки запросов на сервер используется обёртка к `HttpClient` - `defended.service`, в которой вызывается метод `ping` `API` сервера на Spring.
+Для отправки запросов на сервер используется обёртка к `HttpClient` - `ping.service`, в которой вызывается метод `ping` `API` сервера на Spring.
 
 ## Прерыватель запросов (api-interceptor)
 

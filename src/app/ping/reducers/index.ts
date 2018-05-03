@@ -2,7 +2,7 @@ import {loginPageReducer, LoginPageState} from '../../auth/reducers/login-page';
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {authReducer, AuthState} from '../../auth/reducers/auth';
 import {RootState} from '../../core/reducers/reducer.reducer';
-import {getPong, pingReducer, PingState} from './ping.reducer';
+import {getError, getPong, pingReducer, PingState} from './ping.reducer';
 
 export interface State {
   ping: PingState,
@@ -28,4 +28,9 @@ export const getPingState = createSelector(
 export const getPingPong = createSelector(
   getPingState,
   getPong
+);
+
+export const getPongError = createSelector(
+  getPingState,
+  getError
 );

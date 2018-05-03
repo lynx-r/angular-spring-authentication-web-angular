@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
-import {Ping, PingActionTypes, Pong} from '../actions/ping.actions';
-import {DefendedService} from '../../core/services/defended.service';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {Failed, Ping, PingActionTypes, Pong} from '../actions/ping.actions';
+import {PingService} from '../../core/services/ping.service';
 import {Observable} from 'rxjs/Observable';
 import {PongPayload} from '../../core/models/pong-payload';
 
@@ -15,17 +15,15 @@ export class PingEffects {
     .pipe(
       ofType(PingActionTypes.PING),
       map((action: Ping) => action.payload),
-      switchMap(ping => this.defendedService.ping(ping)
+      switchMap(ping => this.pingService.ping(ping)
         .pipe(
           mergeMap((pong: PongPayload) => Observable.of(new Pong(pong))),
           catchError((error) => {
-            console.error(error);
-            alert(error.payload);
-            return Observable.of(error);
+            return Observable.of(new Failed(error.payload));
           })
         ))
     );
 
-  constructor(private actions$: Actions, private defendedService: DefendedService) {
+  constructor(private actions$: Actions, private pingService: PingService) {
   }
 }

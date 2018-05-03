@@ -3,8 +3,9 @@ import {PingPayload} from '../../core/models/ping-payload';
 import {PongPayload} from '../../core/models/pong-payload';
 
 export enum PingActionTypes {
-  PING = '[Ping] Action',
-  PONG = '[Pong] Action'
+  PING = '[Ping] Ping Action',
+  PONG = '[Ping] Pong Action',
+  FAILED = '[Ping] Failed Action'
 }
 
 export class Ping implements Action {
@@ -21,4 +22,11 @@ export class Pong implements Action {
   }
 }
 
-export type PingActions = Ping | Pong;
+export class Failed implements Action {
+  readonly type = PingActionTypes.FAILED;
+
+  constructor(public payload: string) {
+  }
+}
+
+export type PingActions = Ping | Pong | Failed;

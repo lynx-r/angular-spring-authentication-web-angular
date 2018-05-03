@@ -1,28 +1,38 @@
-import { Action } from '@ngrx/store';
 import {PongPayload} from '../../core/models/pong-payload';
 import {PingActions, PingActionTypes} from '../actions/ping.actions';
 
 
 export interface PingState {
-  pong: PongPayload | null
+  pong: PongPayload | null,
+  error: string
 }
 
 export const initialPingState: PingState = {
-  pong: null
+  pong: null,
+  error: ''
 };
 
-export function pingReducer(PingState = initialPingState, action: PingActions): PingState {
+export function pingReducer(state = initialPingState, action: PingActions): PingState {
   switch (action.type) {
 
     case PingActionTypes.PONG:
       return {
-        ...PingState,
-        pong: action.payload
+        ...state,
+        pong: action.payload,
+        error: ''
+      };
+
+    case PingActionTypes.FAILED:
+      return {
+        ...state,
+        pong: null,
+        error: action.payload
       };
 
     default:
-      return PingState;
+      return state;
   }
 }
 
 export const getPong = (store) => store.pong;
+export const getError = (store) => store.error;

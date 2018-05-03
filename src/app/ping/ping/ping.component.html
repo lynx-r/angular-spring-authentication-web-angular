@@ -4,4 +4,5 @@
 <div>
   Ответ:
   <div *ngIf="!!(pong$ | async)">{{pong$ | async}}</div>
+  <div *ngIf="!!(error$ | async)">{{error$ | async}}</div>
 </div>

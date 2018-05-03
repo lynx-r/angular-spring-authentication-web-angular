@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {DefendedService} from '../services/defended.service';
+import {PingService} from '../services/ping.service';
 import {PingPayload} from '../models/ping-payload';
 import {PongPayload} from '../models/pong-payload';
 import {MessageResponse} from '../models/message-response';

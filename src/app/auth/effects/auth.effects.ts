@@ -49,7 +49,6 @@ export class AuthEffects {
               this.router.navigate(['/'])
             ),
             catchError((error) => {
-              console.log('auth', error);
               return Observable.of(error);
             })
           )
@@ -66,7 +65,6 @@ export class AuthEffects {
             map(() => new LogoutSuccess()),
             tap(() => this.router.navigate(['/auth/SignIn'])),
             catchError((error) => {
-              console.log('logout', error);
               return Observable.of(error);
             })
           )
