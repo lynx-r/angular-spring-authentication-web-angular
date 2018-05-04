@@ -24,6 +24,7 @@ import {AuthService} from '../services/auth.service';
     <div *ngIf="loggedIn$ | async">
       Вы вошли как: {{(authUser$ | async).username}}
     </div>
+    <!--Нужно было бы сделать app-page-ping как контайнер из модуля ping.module-->
     <app-ping></app-ping>
   `,
   styles: [`

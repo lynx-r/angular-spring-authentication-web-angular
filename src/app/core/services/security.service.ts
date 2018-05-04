@@ -4,7 +4,6 @@ import {AppConstants} from '../config/app-constants';
 import {UserCredentials} from '../../auth/models/user-credentials';
 import {ApiSecurityService} from './api-security.service';
 import {AuthUser} from '../../auth/models/auth-user';
-import {Answer} from '../models/answer';
 import 'rxjs/add/observable/empty';
 
 @Injectable()

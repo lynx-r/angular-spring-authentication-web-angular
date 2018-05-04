@@ -5,7 +5,6 @@ import {combineReducers, StoreModule} from '@ngrx/store';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {SecurityService} from '../services/security.service';
 import {defer} from 'rxjs/observable/defer';
-import {RouterLinkDirectiveStub} from '../../testing/router-link-directive-stub';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ServicesModule} from '../services/services.module';
 import {CookieModule} from 'ngx-cookie';
@@ -40,7 +39,6 @@ describe('IndexComponent', () => {
       ],
       declarations: [
         IndexComponent,
-        RouterLinkDirectiveStub
       ],
       providers: [
         {provide: APP_BASE_HREF, useValue: '/app'},

@@ -19,18 +19,13 @@ import {HttpClientModule} from '@angular/common/http';
   declarations: [],
   providers: [
     AuthService,
-
     ApiBase,
-
     ApiSecurityService,
     SecurityService,
-
     ApiPingService,
     PingService,
-
     CookieService,
     CookiesService,
-
     UtilsService,
   ]
 })

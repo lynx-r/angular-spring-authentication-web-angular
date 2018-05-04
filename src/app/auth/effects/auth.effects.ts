@@ -44,7 +44,9 @@ export class AuthEffects {
       switchMap(credentials =>
         this.authService.authorize(credentials)
           .pipe(
-            map((user) => new LoginSuccess(user as AuthUser)),
+            map((user) =>
+              new LoginSuccess(user as AuthUser)
+            ),
             tap(() =>
               this.router.navigate(['/'])
             ),
@@ -62,7 +64,9 @@ export class AuthEffects {
       switchMap(() =>
         this.authService.logout()
           .pipe(
-            map(() => new LogoutSuccess()),
+            map(() =>
+              new LogoutSuccess()
+            ),
             tap(() => this.router.navigate(['/auth/SignIn'])),
             catchError((error) => {
               return Observable.of(error);

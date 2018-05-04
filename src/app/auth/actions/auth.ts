@@ -7,11 +7,12 @@ export enum AuthActionTypes {
   REGISTER_SUCCESS = '[Auth] Register Success',
 
   LOGIN = '[Auth] Login',
-  AUTHENTICATED = '[Auth] Authenticated',
-  LOGOUT = '[Auth] Logout',
   LOGIN_SUCCESS = '[Auth] Login Success',
   LOGIN_REDIRECT = '[Auth] Login Redirect',
 
+  AUTHENTICATED = '[Auth] Authenticated',
+
+  LOGOUT = '[Auth] Logout',
   LOGOUT_SUCCESS = '[Auth] Logout Success',
 
   FAILURE = '[Auth] Failure',

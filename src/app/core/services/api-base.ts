@@ -47,6 +47,22 @@ export class ApiBase {
       )
   }
 
+  /**
+   * Не private для тестов
+   * @returns {any}
+   */
+  static apiSecurityUrl() {
+    return ApiBase.getConfig().api_security_url;
+  }
+
+  /**
+   * Не private для тестов
+   * @returns {any}
+   */
+  static apiPingUrl() {
+    return ApiBase.getConfig().api_ping_url;
+  }
+
   private static commonOptions(options?: {}) {
     if (options == null) {
       options = {};
@@ -58,19 +74,11 @@ export class ApiBase {
     return options;
   }
 
-  static apiSecurityUrl() {
-    return ApiBase.getConfig().api_security_url;
-  }
-
-  static apiPingUrl() {
-    return ApiBase.getConfig().api_ping_url;
-  }
-
   private static getConfig() {
     return (<any>config)[profile];
   }
 
-  setAuthUserState(authUser: AuthUser) {
+  private setAuthUserState(authUser: AuthUser) {
     this.cookieService.putAuthUser(authUser);
     this.store.dispatch(new Authenticated(authUser));
   }

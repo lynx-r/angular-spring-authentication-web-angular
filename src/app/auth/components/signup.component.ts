@@ -7,25 +7,25 @@ import {AppConstants} from '../../core/config/app-constants';
   selector: 'app-signup',
   template: `
     <div>
-      <div>Зарегистрируйтесь чтобы стать автором</div>
+      <div>Регистрация</div>
       <div>
         <form [formGroup]="form" (ngSubmit)="submit()">
-          <div class="full-width">
+          <div>
             <input type="email" placeholder="Эл. почта"
                    formControlName="username">
           </div>
-          <p>
           <div>
-            <input type="password" placeholder="Пароль" formControlName="password">
+            <input type="password" placeholder="Пароль" 
+                   formControlName="password">
           </div>
           <div *ngIf="errors.length > 0">
             <div *ngFor="let error of errors">
-              <div class="alert-danger">{{error}}</div><br>
+              <div class="alert-danger">{{error}}</div>
             </div>
           </div>
-          <p class="loginButtons">
+          <div class="loginButtons">
             <button type="submit">Зарегистрироваться</button>
-          </p>
+          </div>
         </form>
       </div>
     </div>

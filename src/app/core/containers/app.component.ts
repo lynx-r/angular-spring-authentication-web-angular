@@ -72,7 +72,6 @@ export class AppComponent implements OnInit, OnDestroy {
         filter(event => event instanceof NavigationEnd),
         switchMap(() => this.authService.authenticate()
           .catch((error: Failure ) => {
-            console.log("Анонимно не достучаться ;)");
             return Observable.of(error);
           })
         ),

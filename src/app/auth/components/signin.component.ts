@@ -79,6 +79,7 @@ export class SigninComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (!!this.errorMessage) {
+      // ошибки приходят в виде слепленных через ; строк. Повод для рефакторинга 😉
       this.errors = this.errorMessage.split(';');
     }
   }

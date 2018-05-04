@@ -8,8 +8,7 @@ import {AuthUser} from '../../auth/models/auth-user';
 export class CookiesService {
 
   constructor(
-    private cookieService: CookieService,
-    private utils: UtilsService,
+    private cookieService: CookieService
   ) {
   }
 
@@ -38,10 +37,6 @@ export class CookiesService {
       }
       this.cookieService.putObject(AppConstants.AUTH_USER_COOKIE, authUser, options);
     }
-  }
-
-  replaceAuthUser(newAuthUser: AuthUser) {
-    this.putAuthUser(newAuthUser);
   }
 
   removeAuthUser() {
