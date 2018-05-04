@@ -47,10 +47,18 @@ export class ApiBase {
       )
   }
 
+  /**
+   * Не private для тестов
+   * @returns {any}
+   */
   static apiSecurityUrl() {
     return ApiBase.getConfig().api_security_url;
   }
 
+  /**
+   * Не private для тестов
+   * @returns {any}
+   */
   static apiPingUrl() {
     return ApiBase.getConfig().api_ping_url;
   }
