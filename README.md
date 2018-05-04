@@ -28,14 +28,13 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
 
 
 # Детали
-
-# Аутентификации на Angular и Spring без Spring Security (клиент на Angular и ngrx)
+# Часть 1. Клиент на Angular
 
 ## О чем эта статья
 
-В этой статье, я расскажу как написать простую аутентификацию без помощи готовых решений для данной задачи. Она может быть полезна для новичков, которые хотят написать своё AAA (Authentication, Authorization, and Accounting). [Репозиторий клиента на Angular и ngrx](https://github.com/lynx-r/angular-spring-authentication-web-angular) и [Репозиторий сервера на Spring](https://github.com/lynx-r/angular-spring-authentication-server-spring).
+В этой статье, я расскажу как написать простую аутентификацию без помощи готовых решений для данной задачи. Она может быть полезна для новичков, которые хотят написать своё AAA (Authentication, Authorization, and Accounting). [Репозиторий клиента на Angular](https://github.com/lynx-r/angular-spring-authentication-web-angular) и [Репозиторий сервера на Spring](https://github.com/lynx-r/angular-spring-authentication-server-spring).
 
-В данной статье мы рассмотрим клиентскую часть на Angular и ngrx.
+В данной статье я сделаю выдержки кода клиентской части на Angular.
 
 <cut/>
 
@@ -47,34 +46,34 @@ Demo: https://stackblitz.com/github/Angular-RU/angular-ngrx-starter
 
     .
     ├── auth                                # Модуль аутентификации
-    │   ├── actions
-    │   │   └── auth.ts
-    │   ├── auth-routing.module.ts
-    │   ├── auth.module.ts
-    │   ├── components
-    │   │   ├── signin.component.ts
-    │   │   └── signup.component.ts
-    │   ├── containers
-    │   │   ├── signin-page.component.ts
-    │   │   └── signup-page.component.ts
-    │   └── services
-    │       └── auth.service.ts
+    │   ├── actions
+    │   │   └── auth.ts
+    │   ├── auth-routing.module.ts
+    │   ├── auth.module.ts
+    │   ├── components
+    │   │   ├── signin.component.ts
+    │   │   └── signup.component.ts
+    │   ├── containers
+    │   │   ├── signin-page.component.ts
+    │   │   └── signup-page.component.ts
+    │   └── services
+    │       └── auth.service.ts
     └── core                                # Главный модуль
         ├── components
-        │   └── index.component.ts
+        │   └── index.component.ts
         ├── containers
-        │   ├── app.component.ts
-        │   └── not-found-page.ts
+        │   ├── app.component.ts
+        │   └── not-found-page.ts
         ├── core-routing.module.ts
         ├── core.module.ts
         ├── models
-        │   ├── answer-message.ts
-        │   ├── answer.ts                   # Ответ с сервера
-        │   ├── notify-type.enum.ts
-        │   ├── ping-payload.ts             # Данные для отправки на сервер
-        │   └── pong-payload.ts             # Данные для получения ответа с сервера
+        │   ├── answer-message.ts
+        │   ├── answer.ts                   # Ответ с сервера
+        │   ├── notify-type.enum.ts
+        │   ├── ping-payload.ts             # Данные для отправки на сервер
+        │   └── pong-payload.ts             # Данные для получения ответа с сервера
         ├── reducers
-        │   └── reducer.reducer.ts
+        │   └── reducer.reducer.ts
         └── services
             ├── cookies.service.ts
             ├── ping.service.ts             # Сервисе выполняющий запросы пользователя на сервер
@@ -155,10 +154,11 @@ intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> 
 
 # Заключение
 
-В этой статье мы рассмотрели как сделать простой клиент аутентификации с помощью Angular, ngrx и проекта от Angular-RU, который упрощает работу с данной связкой.
+В этой статье мы рассмотрели как сделать простой клиент аутентификации с помощью Angular, который упрощает работу с данной связкой.
 
 # Ссылки
 
+* [Часть 2. Сервер на Spring](https://habr.com/post/354862/)
 * [Angular](https://angular.io/)
 * [ngrx](https://ngrx.github.io/)
 * [angular-ngrx-starter](https://github.com/Angular-RU/angular-ngrx-starter)
