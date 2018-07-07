@@ -114,9 +114,9 @@ describe('AppComponent register', () => {
       expect(location.path()).toEqual('/auth/SignUp');
 
       const email: HTMLInputElement = app.query(By.css("input[type=email]")).nativeElement;
-      email.value = mockCredentials.username;
-      const password: HTMLInputElement = app.query(By.css("input[type=password]")).nativeElement;
-      password.value = mockCredentials.username;
+      email.value = mockCredentials.email;
+      const password: HTMLInputElement = app.query(By.css("input[type=passwordHash]")).nativeElement;
+      password.value = mockCredentials.email;
 
       const submit: HTMLButtonElement = app.query(By.css('button[type=submit]')).nativeElement;
       submit.click();
@@ -198,12 +198,12 @@ let configTestBed = function () {
 };
 
 let mockCredentials = {
-  username: 'пользователь',
+  email: 'пользователь',
   password: 'мой пароль'
 };
 let fakeAuthUser = {
   userId: 'я',
-  username: 'пользователь',
+  email: 'пользователь',
   accessToken: '123',
   userSession: '123',
   authorities: ['USER']

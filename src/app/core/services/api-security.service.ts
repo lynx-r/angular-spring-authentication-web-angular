@@ -11,11 +11,16 @@ export class ApiSecurityService extends ApiBase {
 
   get<T>(resource: string): Observable<T> {
     return super
-      .httpGet<T>(ApiBase.apiSecurityUrl() + resource)
+      .httpGet<T>(ApiBase.apiSecurityUrl() + resource);
   }
 
   post<T>(resource: string, config: any): Observable<T> {
     return super
-      .httpPost<T>(ApiBase.apiSecurityUrl() + resource, config)
+      .httpPost<T>(ApiBase.apiSecurityUrl() + resource, config);
+  }
+
+  put<T>(resource: string, config: any): Observable<T> {
+    return super
+      .httpPut<T>(ApiBase.apiSecurityUrl() + resource, config);
   }
 }

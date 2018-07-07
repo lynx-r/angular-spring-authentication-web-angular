@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CookieOptions, CookieService} from 'ngx-cookie';
-import {UtilsService} from './utils.service';
+import {Utils} from './utils';
 import {AppConstants} from '../config/app-constants';
 import {AuthUser} from '../../auth/models/auth-user';
 
@@ -25,15 +25,15 @@ export class CookiesService {
   }
 
   putAuthUser(authUser: AuthUser) {
-    let authUserOld = this.getAuthUser();
-    if (!authUserOld || !!authUser && authUserOld.accessToken != authUser.accessToken) {
+    const authUserOld = this.getAuthUser();
+    if (!authUserOld || !!authUser && authUserOld.accessToken !== authUser.accessToken) {
       this.cookieService.remove(AppConstants.AUTH_USER_COOKIE);
       let options: CookieOptions = {};
-      if (UtilsService.isProdProfile()) {
+      if (Utils.isProdProfile()) {
         options = {
           ...options,
           secure: true,
-        }
+        };
       }
       this.cookieService.putObject(AppConstants.AUTH_USER_COOKIE, authUser, options);
     }

@@ -22,7 +22,7 @@ import {AuthService} from '../services/auth.service';
       <a (click)="logout()">Выйти</a>
     </div>
     <div *ngIf="loggedIn$ | async">
-      Вы вошли как: {{(authUser$ | async).username}}
+      Вы вошли как: {{(authUser$ | async).email}}
     </div>
     <!--Нужно было бы сделать app-page-ping как контайнер из модуля ping.module-->
     <app-ping></app-ping>

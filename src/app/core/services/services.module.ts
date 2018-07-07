@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {CookiesService} from './cookies.service';
 import {CookieService} from 'ngx-cookie';
-import {UtilsService} from './utils.service';
+import {Utils} from './utils';
 import {AuthService} from './auth.service';
 import {PingService} from './ping.service';
 import {ApiPingService} from './api-ping.service';
@@ -10,6 +10,7 @@ import {ApiBase} from './api-base';
 import {ApiSecurityService} from './api-security.service';
 import {SecurityService} from './security.service';
 import {HttpClientModule} from '@angular/common/http';
+import {ErrorHandlingService} from './error-handlingservice';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import {HttpClientModule} from '@angular/common/http';
     PingService,
     CookieService,
     CookiesService,
-    UtilsService,
+    Utils,
+    ErrorHandlingService
   ]
 })
 export class ServicesModule { }

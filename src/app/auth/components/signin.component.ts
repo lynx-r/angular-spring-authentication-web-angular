@@ -12,7 +12,7 @@ import {AppConstants} from '../../core/config/app-constants';
         <form [formGroup]="form" (ngSubmit)="submit()">
           <div>
             <input type="email" placeholder="Эл. почта"
-                   formControlName="username">
+                   formControlName="email">
           </div>
           <div>
             <input type="password" placeholder="Пароль"
@@ -65,7 +65,7 @@ export class SigninComponent implements OnInit, OnChanges {
   @Output() submitted = new EventEmitter<UserCredentials>();
 
   form: FormGroup = new FormGroup({
-    username: new FormControl(''),
+    email: new FormControl(''),
     password: new FormControl(''),
   });
 
@@ -86,7 +86,7 @@ export class SigninComponent implements OnInit, OnChanges {
 
   submit() {
     if (this.form.valid) {
-      let credentials = <UserCredentials>{...this.form.value, type: AppConstants.USER_CREDENTIALS_PAYLOAD_CLASS};
+      const credentials = <UserCredentials>{...this.form.value, type: AppConstants.USER_CREDENTIALS_PAYLOAD_CLASS};
       this.submitted.emit(credentials);
     }
   }

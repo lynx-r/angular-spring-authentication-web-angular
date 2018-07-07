@@ -1,19 +1,22 @@
 export class AppConstants {
 
-  static REGISTER_RESOURCE: string = '/register';
-  static AUTHORIZE_RESOURCE: string = '/authorize';
-  static AUTHENTICATE_RESOURCE: string = '/authenticate';
-  static LOGOUT_RESOURCE: string = '/logout';
+  static AUTH_REQUEST_RESOURCE = '/auth-request';
+  static REGISTER_RESOURCE = '/register';
+  static AUTHORIZE_RESOURCE = '/authorize';
+  static AUTHENTICATE_RESOURCE = '/authenticate';
+  static LOGOUT_RESOURCE = '/logout';
 
-  static PING_RESOURCE: string = '/ping';
+  static PING_RESOURCE = '/ping';
 
-  static ANONYMOUS_ROLE: string = 'ANONYMOUS';
+  static ANONYMOUS_ROLE = 'ANONYMOUS';
 
-  static USER_SESSION_HEADER: string = 'user-session';
-  static ACCESS_TOKEN_HEADER: string = 'access-token';
+  static USER_SESSION_HEADER = 'user-session';
+  static ACCESS_TOKEN_HEADER = 'access-token';
 
-  static AUTH_USER_PAYLOAD_CLASS: string = 'AuthUser';
-  static USER_CREDENTIALS_PAYLOAD_CLASS: string = 'UserCredentials';
+  static AUTH_USER_PAYLOAD_CLASS = 'AuthUser';
+  static USER_CREDENTIALS_PAYLOAD_CLASS = 'UserCredentials';
 
-  static AUTH_USER_COOKIE: string = 'auth-user';
+  static AUTH_USER_COOKIE = 'auth-user';
+  static HTTP_RETRY = 3;
+  static FAIL_SERVER_CONNECTION = 'Не удалось установить соединение с сервером';
 }

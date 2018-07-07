@@ -1,10 +1,16 @@
-import {ActionReducer, MetaReducer} from '@ngrx/store';
+import {ActionReducer, ActionReducerMap, createFeatureSelector, createSelector, MetaReducer} from '@ngrx/store';
 
 import {storeFreeze} from 'ngrx-store-freeze';
 import {environment} from '../../../environments/environment';
+import {generalReducer, GeneralState, getHttpError} from './general';
 
 export interface RootState {
+  general: GeneralState;
 }
+
+export const reducers: ActionReducerMap<RootState> = {
+  general: generalReducer,
+};
 
 /**
  * Our state is composed of a map of action reducer functions.
@@ -29,3 +35,10 @@ export function logger(reducer: ActionReducer<RootState>): ActionReducer<RootSta
 export const metaReducers: MetaReducer<RootState>[] = !environment.production
   ? [logger, storeFreeze]
   : [];
+
+export const getGeneralState = createFeatureSelector('general');
+
+export const getGeneralHttpError = createSelector(
+  getGeneralState,
+  getHttpError
+);

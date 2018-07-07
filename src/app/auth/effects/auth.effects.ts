@@ -12,6 +12,7 @@ import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {AuthActionTypes, Login, LoginSuccess, LogoutSuccess, Register, RegisterSuccess} from '../actions/auth';
 import {Observable} from 'rxjs/Observable';
 import {AuthUser} from '../models/auth-user';
+import {SecurityService} from '../../core/services/security.service';
 
 @Injectable()
 export class AuthEffects {
@@ -22,7 +23,7 @@ export class AuthEffects {
       ofType(AuthActionTypes.REGISTER),
       map((action: Register) => action.payload),
       switchMap(credentials =>
-        this.authService.register(credentials)
+        this.securityService.register(credentials)
           .pipe(
             mergeMap(user => [
               new RegisterSuccess(user as AuthUser),
@@ -42,7 +43,7 @@ export class AuthEffects {
       ofType(AuthActionTypes.LOGIN),
       map((action: Login) => action.payload),
       switchMap(credentials =>
-        this.authService.authorize(credentials)
+        this.securityService.authorize(credentials)
           .pipe(
             map((user) =>
               new LoginSuccess(user as AuthUser)
@@ -78,6 +79,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
+    private securityService: SecurityService,
     private router: Router
   ) {
   }

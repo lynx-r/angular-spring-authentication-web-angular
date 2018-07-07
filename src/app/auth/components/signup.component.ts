@@ -12,7 +12,7 @@ import {AppConstants} from '../../core/config/app-constants';
         <form [formGroup]="form" (ngSubmit)="submit()">
           <div>
             <input type="email" placeholder="Эл. почта"
-                   formControlName="username">
+                   formControlName="email">
           </div>
           <div>
             <input type="password" placeholder="Пароль" 
@@ -65,7 +65,7 @@ export class SignupComponent implements OnInit, OnChanges {
   @Output() submitted = new EventEmitter<UserCredentials>();
 
   form: FormGroup = new FormGroup({
-    username: new FormControl(''),
+    email: new FormControl(''),
     password: new FormControl(''),
   });
 

@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
-import {UserCredentials} from '../../auth/models/user-credentials';
 import {Observable} from 'rxjs/Observable';
 import {SecurityService} from './security.service';
 import {catchError, map, take, tap} from 'rxjs/operators';
 import {CookiesService} from './cookies.service';
-import {AuthUser} from '../../auth/models/auth-user';
 import {getUserState} from '../../auth/reducers';
 import {Store} from '@ngrx/store';
 import {RootState} from '../reducers/reducer.reducer';
+import {Utils} from './utils';
 
 @Injectable()
 export class AuthService {
@@ -19,17 +18,9 @@ export class AuthService {
   ) {
   }
 
-  register(credentials: UserCredentials): Observable<AuthUser> {
-    return this.securityService.register(credentials)
-  }
-
-  authorize(credentials: UserCredentials): Observable<AuthUser> {
-    return this.securityService.authorize(credentials)
-  }
-
   authenticate() {
-    let authUser = this.cookieService.getAuthUser();
-    return this.securityService.authenticate(authUser)
+    const authUser = this.cookieService.getAuthUser();
+    return this.securityService.authenticate(authUser);
   }
 
   logout() {
@@ -40,11 +31,11 @@ export class AuthService {
           this.cookieService.removeAuthUser();
           return Observable.of(error);
         })
-      )
+      );
   }
 
   isLoggedIn() {
-    return this.getLoggedUser().map(authUser => !!authUser);
+    return this.getLoggedUser().map(authUser => Utils.isLoggedIn(authUser));
   }
 
   getLoggedUser() {
@@ -57,6 +48,6 @@ export class AuthService {
           return this.cookieService.getAuthUser();
         }),
         take(1)
-      )
+      );
   }
 }

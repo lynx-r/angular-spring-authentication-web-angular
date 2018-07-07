@@ -16,7 +16,7 @@ describe('IndexComponent', () => {
 
   let fakeAuthUser = {
     userId: 'я',
-    username: 'пользователь',
+    email: 'пользователь',
     accessToken: '123',
     userSession: '123',
     authorities: ['USER']
