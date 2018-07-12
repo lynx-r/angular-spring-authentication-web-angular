@@ -1,8 +1,8 @@
 import {Observable} from 'rxjs/Observable';
 import {Injectable} from '@angular/core';
-import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {AppConstants} from '../config/app-constants';
-import {UtilsService} from './utils.service';
+import {Utils} from './utils.service';
 import {AuthService} from './auth.service';
 import {map, switchMap} from 'rxjs/operators';
 
@@ -16,7 +16,7 @@ export class ApiInterceptor implements HttpInterceptor {
       .pipe(
         map(authUser => {
           let clonedRequest = req.clone();
-          let isLoggedIn = UtilsService.isLoggedIn(authUser);
+          let isLoggedIn = Utils.isLoggedIn(authUser);
           if (isLoggedIn) {
             clonedRequest = clonedRequest.clone(
               {

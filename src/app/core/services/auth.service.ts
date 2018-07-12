@@ -8,6 +8,7 @@ import {AuthUser} from '../../auth/models/auth-user';
 import {getUserState} from '../../auth/reducers';
 import {Store} from '@ngrx/store';
 import {RootState} from '../reducers/reducer.reducer';
+import {Utils} from './utils.service';
 
 @Injectable()
 export class AuthService {
@@ -20,16 +21,16 @@ export class AuthService {
   }
 
   register(credentials: UserCredentials): Observable<AuthUser> {
-    return this.securityService.register(credentials)
+    return this.securityService.register(credentials);
   }
 
   authorize(credentials: UserCredentials): Observable<AuthUser> {
-    return this.securityService.authorize(credentials)
+    return this.securityService.authorize(credentials);
   }
 
   authenticate() {
-    let authUser = this.cookieService.getAuthUser();
-    return this.securityService.authenticate(authUser)
+    const authUser = this.cookieService.getAuthUser();
+    return this.securityService.authenticate(authUser);
   }
 
   logout() {
@@ -40,11 +41,11 @@ export class AuthService {
           this.cookieService.removeAuthUser();
           return Observable.of(error);
         })
-      )
+      );
   }
 
   isLoggedIn() {
-    return this.getLoggedUser().map(authUser => !!authUser);
+    return this.getLoggedUser().map(authUser => Utils.isLoggedIn(authUser));
   }
 
   getLoggedUser() {
@@ -57,6 +58,6 @@ export class AuthService {
           return this.cookieService.getAuthUser();
         }),
         take(1)
-      )
+      );
   }
 }

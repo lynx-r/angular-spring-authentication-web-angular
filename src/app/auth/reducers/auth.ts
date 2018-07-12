@@ -1,5 +1,5 @@
 import {AuthActions, AuthActionTypes} from '../actions/auth';
-import {UtilsService} from '../../core/services/utils.service';
+import {Utils} from '../../core/services/utils.service';
 import {AuthUser} from '../models/auth-user';
 
 export interface AuthState {
@@ -25,7 +25,7 @@ export function authReducer(state = initialState, action: AuthActions): AuthStat
     case AuthActionTypes.AUTHENTICATED:
       return {
         ...state,
-        loggedIn: UtilsService.isLoggedIn(action.payload),
+        loggedIn: Utils.isLoggedIn(action.payload),
         user: action.payload
       };
 

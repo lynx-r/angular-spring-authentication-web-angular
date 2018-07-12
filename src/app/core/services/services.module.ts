@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {CookiesService} from './cookies.service';
 import {CookieService} from 'ngx-cookie';
-import {UtilsService} from './utils.service';
+import {Utils} from './utils.service';
 import {AuthService} from './auth.service';
 import {PingService} from './ping.service';
 import {ApiPingService} from './api-ping.service';
@@ -26,7 +26,7 @@ import {HttpClientModule} from '@angular/common/http';
     PingService,
     CookieService,
     CookiesService,
-    UtilsService,
+    Utils,
   ]
 })
 export class ServicesModule { }
